@@ -49,8 +49,8 @@ def run_autonomous_cloud_harvest():
     except Exception as e:
         logger.error(f"[WSGI Scheduler] Autonomous harvest error: {e}")
 
-# Read harvest interval from env (default 360 minutes = 6 hours)
-harvest_interval = int(os.environ.get("HARVEST_INTERVAL_MINUTES", 360))
+# Read harvest interval from env (default 720 minutes = 12 hours)
+harvest_interval = int(os.environ.get("HARVEST_INTERVAL_MINUTES", 720))
 
 # Start background harvester daemon with a 20-second startup delay
 cloud_scheduler = BackgroundJobScheduler(

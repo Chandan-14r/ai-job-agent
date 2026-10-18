@@ -17,7 +17,7 @@ class BackgroundJobScheduler:
     def __init__(
         self,
         run_discovery_fn: Callable[[], Any],
-        interval_minutes: int = 360,
+        interval_minutes: int = 720,
         initial_delay_seconds: int = 15,
     ):
         self.run_discovery_fn = run_discovery_fn

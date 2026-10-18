@@ -168,7 +168,7 @@ def main():
 
     if args.dashboard:
         print(f"[Launching Local Monitoring Dashboard on http://127.0.0.1:{args.port}]...")
-        # Start Autonomous Background Harvester daemon (6-hour interval, 15s startup delay)
+        # Start Autonomous Background Harvester daemon (12-hour interval, 15s startup delay)
         def run_dashboard_bg_harvest():
             try:
                 from scheduler.daily_agent import AutonomousDailyScrapingAgent
@@ -179,11 +179,11 @@ def main():
 
         bg_scheduler = BackgroundJobScheduler(
             run_discovery_fn=run_dashboard_bg_harvest,
-            interval_minutes=360,
+            interval_minutes=720,
             initial_delay_seconds=15,
         )
         bg_scheduler.start()
-        print("[Autonomous Background Harvester Active: checks Naukri, Internshala & ATS feeds every 6 hours.]\n")
+        print("[Autonomous Background Harvester Active: checks Naukri, Internshala & ATS feeds every 12 hours.]\n")
 
         flask_app = create_app(repo=repo, current_mode=args.mode)
         try:

@@ -24,6 +24,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from candidate_profile.loader import load_candidate_profile, CandidateProfile
 from database.repository import ApplicationRepository, get_default_repository
 from telegram_notifications.notifier import TelegramNotifier
+from telegram_notifications.templates import format_new_job_found, clean
 from application_workflow.engine import ApplicationEngine
 from job_sources.connectors.session_vault import SessionVault
 from job_sources.connectors.naukri_browser import NaukriBrowserConnector
@@ -138,6 +139,31 @@ class AutonomousDailyScrapingAgent:
         # 4. Generate Audit Daily Report
         reports = self.engine.generate_daily_report()
 
+        # 5. Automatically Dispatch Qualified Jobs & 12-Hour Summary to Telegram
+        telegram_dispatches = 0
+        if self.notifier and self.notifier.is_configured:
+            logger.info("[DailyAgent] Dispatching job alerts and 12-hour summary to Telegram...")
+            # Send individual job cards for top qualified jobs (up to 5 per cycle)
+            for q in qualified_records[:5]:
+                app_obj = self.repo.get_application_by_id(q["id"])
+                if app_obj:
+                    card_msg = format_new_job_found(app_obj)
+                    sent = self.notifier.send_message(card_msg, event_id=f"tg_card_{app_obj.id}")
+                    if sent:
+                        telegram_dispatches += 1
+
+            # Send 12-Hour Executive Summary
+            summary_msg = self._build_cycle_telegram_summary(
+                total_scraped=len(all_scraped),
+                total_qualified=total_qualified,
+                total_vetoed=total_vetoed,
+                sources=source_breakdown,
+                qualified_jobs=qualified_records,
+            )
+            hour_bucket = datetime.utcnow().strftime("%Y-%m-%d_%H")
+            self.notifier.send_message(summary_msg, event_id=f"12hr_summary_{hour_bucket}")
+            logger.info(f"[DailyAgent] Telegram dispatch complete ({telegram_dispatches} cards + executive report).")
+
         end_ts = datetime.utcnow().isoformat()
         logger.info(
             f"[DailyAgent] Cycle complete: {len(all_scraped)} scraped, "
@@ -151,11 +177,55 @@ class AutonomousDailyScrapingAgent:
             "total_scraped": len(all_scraped),
             "total_qualified": total_qualified,
             "total_vetoed": total_vetoed,
+            "telegram_dispatches": telegram_dispatches,
             "sources": source_breakdown,
             "qualified_jobs": qualified_records,
             "reports": reports,
             "kpi_summary": self.repo.get_kpi_summary(),
         }
+
+    def _build_cycle_telegram_summary(
+        self,
+        total_scraped: int,
+        total_qualified: int,
+        total_vetoed: int,
+        sources: Dict[str, Any],
+        qualified_jobs: List[Dict[str, Any]],
+    ) -> str:
+        kpis = self.repo.get_kpi_summary()
+        sources_line = " • ".join([f"{s.capitalize()}: {info.get('scraped', 0)}" for s, info in sources.items()])
+
+        top_jobs_text = ""
+        for i, q in enumerate(qualified_jobs[:5], 1):
+            salary = q.get("salary") or "Market Standard (≥4.0 LPA)"
+            top_jobs_text += (
+                f"\n<b>{i}. {clean(q['employer'])}</b> – {clean(q['title'])}\n"
+                f"   ⭐ Match Score: <b>{q['score']}/100</b>\n"
+                f"   📍 Location: {clean(q['location'])}\n"
+                f"   💰 Compensation: {clean(salary)}\n"
+                f"   📄 Recommended Resume: <code>{clean(q.get('resume_version', 'RESUME_A'))}</code>\n"
+                f"   🔗 <a href='{clean(q['url'])}'>View &amp; Apply on Employer Portal</a>\n"
+            )
+
+        if not top_jobs_text:
+            top_jobs_text = "<i>No new openings discovered this cycle. Actively monitoring existing verified opportunities.</i>\n"
+
+        return (
+            "🤖 <b>12-HOUR AUTONOMOUS JOB HARVEST REPORT</b>\n"
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            f"Candidate: <b>{clean(self.profile.full_name)}</b>\n"
+            f"Role: <b>Python Full Stack Developer (0–2 Yrs)</b>\n"
+            f"Constraints: <b>Min ₹4.0 LPA | Bengaluru, Mysuru &amp; Remote</b>\n\n"
+            f"🔍 <b>Scraped Listings:</b> {total_scraped} ({sources_line})\n"
+            f"✅ <b>Qualified (≥4.0 LPA):</b> {total_qualified}\n"
+            f"🚫 <b>Vetoed (&lt;4.0 LPA / Non-Target):</b> {total_vetoed}\n"
+            f"📊 <b>Total Database Jobs:</b> {kpis.get('total_applications', 0)}\n"
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            f"<b>🎯 Top Matched Opportunities:</b>\n"
+            f"{top_jobs_text}\n"
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            "<i>Running on 12-hour automated schedule. Zero fabricated claims.</i>"
+        )
 
 
 def main():
