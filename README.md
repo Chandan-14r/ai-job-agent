@@ -155,3 +155,26 @@ The agent strictly halts and alerts the candidate whenever an application form r
 11. Years of professional experience
 12. Mandatory legal declarations
 13. Sensitive demographic or personal data
+
+---
+
+## ☁️ Render Cloud Deployment & Anti-Sleep Architecture
+
+### 1. 24/7 Keep-Alive Engine
+Render free tier web services automatically spin down after 15 minutes of inbound HTTP inactivity. This project includes a built-in anti-sleep engine ([`scheduler/keep_alive.py`](file:///C:/Users/crs14/.gemini/antigravity/scratch/ai_job_agent/scheduler/keep_alive.py)):
+* **Automatic Detection**: When deployed on Render, `RENDER_EXTERNAL_URL` is automatically detected by `wsgi.py`.
+* **Internal Self-Pinger**: Sends an HTTP GET request to `/healthz` every 10 minutes (600s) to keep the container continuously active.
+* **External Uptime Monitor (Optional Backup)**: Add your Render URL (`https://<service-name>.onrender.com/healthz`) to a free service like [Cron-Job.org](https://cron-job.org) or [UptimeRobot](https://uptimerobot.com) with a 10-minute check interval for 100% guaranteed 24/7 uptime.
+
+### 2. Deploying to Render via GitHub
+1. Push this repository to `github.com/kiranan2004-lgtm/ai-job-agent`.
+2. Log in to [Render](https://dashboard.render.com).
+3. Click **New +** -> **Blueprint**.
+4. Select `kiranan2004-lgtm/ai-job-agent`.
+5. Render reads `render.yaml` automatically and configures:
+   * **Runtime**: Python 3.10
+   * **Build Command**: `pip install -r requirements.txt && python -m playwright install --with-deps chromium || true`
+   * **Start Command**: `gunicorn wsgi:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120`
+   * **Health Check Path**: `/healthz`
+6. Click **Apply**. Render will build and deploy the application live at `https://<service-name>.onrender.com`.
+
