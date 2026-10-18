@@ -585,6 +585,21 @@ def create_app(
                 "message": f"Daily agent execution encountered an error: {str(e)}"
             }), 500
 
+    @app.route("/api/scheduler/status", methods=["GET"])
+    def api_scheduler_status():
+        from scheduler.runner import get_global_scheduler
+        sched = get_global_scheduler()
+        if not sched:
+            return jsonify({
+                "status": "idle",
+                "is_running": False,
+                "message": "Background harvester daemon not initialized in this process.",
+            })
+        return jsonify({
+            "status": "success",
+            "scheduler": sched.get_status(),
+        })
+
     return app
 
 

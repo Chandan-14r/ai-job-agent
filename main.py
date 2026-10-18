@@ -168,8 +168,28 @@ def main():
 
     if args.dashboard:
         print(f"[Launching Local Monitoring Dashboard on http://127.0.0.1:{args.port}]...")
+        # Start Autonomous Background Harvester daemon (6-hour interval, 15s startup delay)
+        def run_dashboard_bg_harvest():
+            try:
+                from scheduler.daily_agent import AutonomousDailyScrapingAgent
+                agent = AutonomousDailyScrapingAgent(profile=profile, repository=repo, notifier=notifier, mode=args.mode)
+                agent.run_daily_cycle(limit_per_source=15)
+            except Exception as e:
+                logger.error(f"[Background Harvester] Error in scheduled run: {e}")
+
+        bg_scheduler = BackgroundJobScheduler(
+            run_discovery_fn=run_dashboard_bg_harvest,
+            interval_minutes=360,
+            initial_delay_seconds=15,
+        )
+        bg_scheduler.start()
+        print("[Autonomous Background Harvester Active: checks Naukri, Internshala & ATS feeds every 6 hours.]\n")
+
         flask_app = create_app(repo=repo, current_mode=args.mode)
-        flask_app.run(host="127.0.0.1", port=args.port, debug=False)
+        try:
+            flask_app.run(host="127.0.0.1", port=args.port, debug=False)
+        finally:
+            bg_scheduler.stop()
 
     if args.scheduler:
         def scheduled_cycle():
