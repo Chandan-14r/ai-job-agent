@@ -211,7 +211,7 @@ class BaseBrowserConnector(BaseJobSource, ABC):
 
                 success = self._portal_verify_otp(page, clean_otp)
                 if success:
-                    # Save storage state
+                    # Save genuine storage state from browser context
                     storage_state = context.storage_state()
                     self.vault.save_session(
                         portal=self.platform_id,
@@ -223,45 +223,28 @@ class BaseBrowserConnector(BaseJobSource, ABC):
                     return {
                         "status": "AUTHENTICATED",
                         "portal": self.platform_id,
-                        "message": f"Successfully connected to {self.display_name}! Session cached in vault.",
+                        "message": f"Successfully authenticated on {self.display_name}! Session cached in vault.",
                     }
                 else:
                     return {
                         "status": "error",
                         "portal": self.platform_id,
-                        "message": f"Invalid OTP or verification rejected on {self.display_name}. Please check the code.",
+                        "message": f"Invalid OTP code. {self.display_name} rejected the verification attempt. Please check your SMS and enter the correct code.",
                     }
             except Exception as e:
                 logger.error(f"[{self.platform_id}] verify_otp error: {e}")
                 self._cleanup_active_session()
-
-        # Fallback / Simulated verification (e.g. for testing or when active browser timed out)
-        # Create a valid session in session vault
-        mock_state = {
-            "cookies": [
-                {
-                    "name": f"{self.platform_id}_auth_token",
-                    "value": f"token_{int(time.time())}_{clean_otp}",
-                    "domain": f".{self.platform_id}.com",
-                    "path": "/",
-                    "expires": time.time() + 86400 * 30,
-                    "httpOnly": True,
-                    "secure": True,
-                    "sameSite": "Lax",
+                return {
+                    "status": "error",
+                    "portal": self.platform_id,
+                    "message": f"Verification error on {self.display_name}: {e}. Please retry sending OTP.",
                 }
-            ],
-            "origins": [],
-        }
-        meta = self.vault.save_session(
-            portal=self.platform_id,
-            phone=phone,
-            storage_state=mock_state,
-            status="AUTHENTICATED",
-        )
+
+        # If no active browser instance was waiting for OTP
         return {
-            "status": "AUTHENTICATED",
+            "status": "error",
             "portal": self.platform_id,
-            "message": f"Successfully connected to {self.display_name}! Authentication verified and cached.",
+            "message": f"No active login session found for {self.display_name} (timed out or not started). Please click 'Send OTP' first.",
         }
 
     @abstractmethod

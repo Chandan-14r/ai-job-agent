@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 from candidate_profile.loader import CandidateProfile
 from candidate_profile.resume_verifier import get_all_verified_skills
-from job_parser.extractor import ParsedJob, JobCategory
+from job_parser.extractor import ParsedJob, JobCategory, EXCLUDED_ROLES_PATTERN
 
 
 class DecisionBand(str, Enum):
@@ -69,9 +69,21 @@ class JobScorer:
 
         # --- 1. Hard Eligibility Veto Gate ---
         # A. Role Category Veto
-        if job.category == JobCategory.EXCLUDED:
+        if job.category == JobCategory.EXCLUDED or EXCLUDED_ROLES_PATTERN.search(job.title):
             return self._build_veto_result(
-                "Hard Veto: Role is an excluded category (Tech Support / BPO / Helpdesk / Sales)."
+                f"Hard Veto: Role '{job.title}' is an excluded non-target category (Designer / Manager / Director / Support / Infra / Sales)."
+            )
+
+        # Ensure role is relevant to developer / engineering career track
+        dev_keywords = [
+            "developer", "engineer", "programmer", "full stack", "fullstack", "full-stack",
+            "backend", "python", "django", "software", "database", "sql", "trainee", "intern",
+            "qa", "automation", "sde", "associate"
+        ]
+        title_lower = job.title.lower()
+        if not any(k in title_lower for k in dev_keywords):
+            return self._build_veto_result(
+                f"Hard Veto: Role title '{job.title}' does not align with candidate's software developer profile."
             )
 
         # B. Experience Ceiling Veto (>2.0 years mandatory)
@@ -107,6 +119,26 @@ class JobScorer:
             if re.search(pattern, jd_lower) and not any(k in jd_lower for k in ["python", "django"]):
                 # Role is purely for another programming language
                 return self._build_veto_result(f"Hard Veto: Mandatory tech stack '{lang.upper()}' is not in candidate's verified skills.")
+
+        # Check if job title explicitly specifies non-target language without Python
+        non_target_title_langs = [
+            (r"\bruby\b", "Ruby"),
+            (r"\bgolang\b", "Go / Golang"),
+            (r"\bgo\b", "Go"),
+            (r"\bc\+\+\b", "C++"),
+            (r"\bc#\b", "C#"),
+            (r"\b\.net\b", ".NET"),
+            (r"\bjava\b", "Java"),
+            (r"\bphp\b", "PHP"),
+            (r"\bswift\b", "Swift"),
+            (r"\bkotlin\b", "Kotlin"),
+            (r"\brust\b", "Rust"),
+        ]
+        for pat, lang_name in non_target_title_langs:
+            if re.search(pat, title_lower) and not any(k in title_lower for k in ["python", "django"]):
+                return self._build_veto_result(
+                    f"Hard Veto: Role is dedicated to '{lang_name}', which is not in candidate's verified Python stack."
+                )
 
         # E. Salary Floor Veto (Min 4.0 LPA)
         sal_min = job.min_salary_lpa

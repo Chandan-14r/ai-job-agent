@@ -168,6 +168,41 @@
             box-shadow: none;
         }
 
+        /* Radiant Autonomous Agent Pulse Button */
+        .btn-agent-pulse {
+            background: linear-gradient(135deg, #00F2FE 0%, #0284C7 50%, #6366F1 100%) !important;
+            color: #FFFFFF !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(255, 255, 255, 0.4) !important;
+            border-radius: var(--radius-sm) !important;
+            padding: 8px 18px !important;
+            box-shadow: 0 0 22px rgba(6, 182, 212, 0.55), 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            animation: pulseAgentGlow 2.5s infinite alternate !important;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-agent-pulse:hover {
+            transform: translateY(-2px) scale(1.02) !important;
+            box-shadow: 0 0 35px rgba(6, 182, 212, 0.85), 0 8px 25px rgba(0, 0, 0, 0.6) !important;
+            color: #FFFFFF !important;
+        }
+
+        .btn-agent-pulse:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            animation: none !important;
+        }
+
+        @keyframes pulseAgentGlow {
+            0% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.45), 0 4px 12px rgba(0, 0, 0, 0.5); }
+            100% { box-shadow: 0 0 32px rgba(99, 102, 241, 0.75), 0 6px 20px rgba(0, 0, 0, 0.6); }
+        }
+
         .btn-cyber-outline {
             background: rgba(15, 23, 42, 0.6);
             color: var(--text-heading);
@@ -813,24 +848,24 @@
     </div>
 
     <!-- Quick Action Command Toolbar -->
-    <div class="glass-panel p-3 mb-4">
+    <div class="glass-panel p-3 mb-4" style="background: linear-gradient(135deg, rgba(13, 20, 36, 0.95), rgba(20, 30, 58, 0.9)); border: 1px solid rgba(6, 182, 212, 0.35); box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 0 15px rgba(6, 182, 212, 0.08);">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
-                <h6 class="fw-bold mb-0 text-white font-display"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Real-Time Agent Control Actions</h6>
-                <div class="small text-muted">Execute discovery cycles, re-generate tailored ATS resumes, or test bot alerts with 1-click.</div>
+                <h6 class="fw-bold mb-0 text-white font-display"><i class="bi bi-robot text-cyan-glow me-1"></i> Autonomous AI Job Hunter Controls</h6>
+                <div class="small text-muted">Harvest verified Python vacancies across Naukri, Internshala, LinkedIn & Greenhouse with 100-pt rubric matching.</div>
             </div>
             <div class="d-flex flex-wrap gap-2">
-                <button class="btn btn-cyber-primary shadow-sm" onclick="triggerDiscovery(true, this)">
-                    <i class="bi bi-globe me-1"></i> Discover Real Public ATS (Canonical, GitLab)
+                <button class="btn btn-agent-pulse" onclick="runDailyAgent(this)" id="btn-daily-agent" title="Run autonomous daily scraper across all platforms">
+                    <i class="bi bi-lightning-charge-fill me-1"></i> Run Daily Autonomous Agent (Scrape & Score Real Jobs)
                 </button>
-                <button class="btn btn-cyber-outline shadow-sm" onclick="syncPortalJobs('all', this)">
-                    <i class="bi bi-cloud-arrow-down me-1 text-cyan-glow"></i> Sync Connected Portals
+                <button class="btn btn-cyber-primary shadow-sm" onclick="syncPortalJobs('all', this)" title="Synchronize connected job portals">
+                    <i class="bi bi-cloud-arrow-down-fill me-1"></i> Sync Portals
                 </button>
-                <button class="btn btn-cyber-outline shadow-sm text-success" onclick="generateResumes(this)">
-                    <i class="bi bi-file-earmark-pdf me-1"></i> Generate All ATS Resumes
+                <button class="btn btn-cyber-outline shadow-sm text-success" onclick="generateResumes(this)" title="Generate DOCX & PDF resumes for all variants">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> ATS Resumes
                 </button>
-                <button class="btn btn-cyber-outline shadow-sm" onclick="testTelegram()">
-                    <i class="bi bi-send me-1 text-info"></i> Ping Telegram Bot
+                <button class="btn btn-cyber-outline shadow-sm" onclick="testTelegram()" title="Test Telegram Bot notifications">
+                    <i class="bi bi-send me-1 text-info"></i> Ping Bot
                 </button>
             </div>
         </div>
@@ -1726,7 +1761,11 @@
         const otp = otpInput ? otpInput.value.trim() : '';
         if (!otp) {
             showLiveAlert('Please enter the OTP received on your mobile phone.', false);
-            if (otpInput) otpInput.focus();
+            if (otpInput) {
+                otpInput.focus();
+                otpInput.style.borderColor = '#EF4444';
+                otpInput.style.boxShadow = '0 0 12px rgba(239, 68, 68, 0.5)';
+            }
             return;
         }
         const originalHtml = btnElement ? btnElement.innerHTML : '';
@@ -1734,7 +1773,7 @@
             btnElement.disabled = true;
             btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
         }
-        showLiveAlert(`Verifying OTP on ${portal.toUpperCase()} and caching session...`);
+        showLiveAlert(`Authenticating on ${portal.toUpperCase()} via Playwright with OTP code... Please wait.`);
 
         fetch('/api/portals/verify_otp', {
             method: 'POST',
@@ -1750,6 +1789,10 @@
             const isAuth = data.status === 'AUTHENTICATED';
             showLiveAlert(data.message, isAuth);
             if (isAuth) {
+                if (otpInput) {
+                    otpInput.style.borderColor = '#10B981';
+                    otpInput.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.5)';
+                }
                 const badge = document.getElementById(`badge-${portal}`);
                 if (badge) {
                     badge.className = 'badge bg-success font-mono small';
@@ -1759,6 +1802,17 @@
                 if (phoneLabel && data.masked_phone) {
                     phoneLabel.innerText = data.masked_phone;
                 }
+            } else {
+                if (otpInput) {
+                    otpInput.style.borderColor = '#EF4444';
+                    otpInput.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.6)';
+                    otpInput.focus();
+                }
+                const badge = document.getElementById(`badge-${portal}`);
+                if (badge && badge.innerText !== 'CONNECTED') {
+                    badge.className = 'badge bg-danger font-mono small';
+                    badge.innerText = 'AUTH REJECTED';
+                }
             }
         })
         .catch(err => {
@@ -1766,7 +1820,49 @@
                 btnElement.disabled = false;
                 btnElement.innerHTML = originalHtml;
             }
-            showLiveAlert(`Verification error: ${err}`, false);
+            if (otpInput) {
+                otpInput.style.borderColor = '#EF4444';
+            }
+            showLiveAlert(`Portal verification error: ${err}`, false);
+        });
+    }
+
+    function runDailyAgent(btnElement) {
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Autonomous Harvesting in Progress...`;
+        }
+        showLiveAlert('Autonomous Daily Agent activated: Scanning Naukri, Internshala, LinkedIn & Greenhouse for Python Developer roles (≥4.0 LPA in Bengaluru/Mysuru/WFH)...');
+
+        fetch('/api/run_daily_agent', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({limit_per_source: 15})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            if (data.status === 'success') {
+                showLiveAlert(
+                    `Autonomous Harvest Complete! Total Scraped: ${data.total_scraped} | Qualified: ${data.total_qualified} | Vetoed: ${data.total_vetoed}`,
+                    true
+                );
+                if (data.kpi_summary) updateKpiElements(data.kpi_summary);
+                setTimeout(() => location.reload(), 2000);
+            } else {
+                showLiveAlert(data.message || 'Daily agent encountered an issue during execution.', false);
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert('Daily agent request error: ' + err, false);
         });
     }
 

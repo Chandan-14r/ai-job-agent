@@ -554,6 +554,33 @@ def create_app(
             "portal_statuses": portal_statuses,
         })
 
+    @app.route("/api/run_daily_agent", methods=["POST"])
+    def api_run_daily_agent():
+        if system_state["emergency_stop"]:
+            return jsonify({"status": "error", "message": "Cannot run agent: Emergency Stop is active."}), 400
+
+        data = request.get_json() or {}
+        limit = int(data.get("limit_per_source", 15))
+
+        try:
+            from scheduler.daily_agent import AutonomousDailyScrapingAgent
+            profile = load_candidate_profile()
+            agent = AutonomousDailyScrapingAgent(
+                profile=profile,
+                repository=repository,
+                notifier=notifier,
+                session_vault=vault,
+                mode=system_state["mode"],
+            )
+            result = agent.run_daily_cycle(limit_per_source=limit)
+            return jsonify(result)
+        except Exception as e:
+            logger.error(f"Error executing Autonomous Daily Agent: {e}")
+            return jsonify({
+                "status": "error",
+                "message": f"Daily agent execution encountered an error: {str(e)}"
+            }), 500
+
     return app
 
 

@@ -49,6 +49,7 @@ def parse_args():
     parser.add_argument("--test-telegram", action="store_true", help="Send a dry-run test ping to Telegram")
     parser.add_argument("--status", action="store_true", help="Display current system status and candidate profile checklist")
     parser.add_argument("--approve-activation", action="store_true", help="Record explicit candidate approval for Mode 3")
+    parser.add_argument("--daily-agent", action="store_true", help="Run the autonomous daily scraper across Naukri, Internshala, LinkedIn, and ATS boards")
     return parser.parse_args()
 
 
@@ -86,6 +87,26 @@ def main():
         print("\n[Application Tracking KPIs]")
         for k, v in kpis.items():
             print(f"  • {k}: {v}")
+        return
+
+    if args.daily_agent:
+        print("[Starting Autonomous Daily Scraping Agent...]")
+        from scheduler.daily_agent import AutonomousDailyScrapingAgent
+        agent = AutonomousDailyScrapingAgent(profile=profile, repository=repo, notifier=notifier, mode=args.mode)
+        res = agent.run_daily_cycle(limit_per_source=15)
+        print("\n" + "=" * 60)
+        print("   AUTONOMOUS DAILY AGENT HARVEST SUMMARY")
+        print("=" * 60)
+        print(f"Total Scraped:   {res['total_scraped']}")
+        print(f"Total Qualified: {res['total_qualified']}")
+        print(f"Total Vetoed:    {res['total_vetoed']}")
+        print("\n[Source Breakdown]")
+        for s, info in res["sources"].items():
+            print(f"  • {s:15s}: Scraped={info.get('scraped', 0)} | Qualified={info.get('qualified', 0)}")
+        print("\n[Qualified Listings Saved to Database]")
+        for q in res["qualified_jobs"][:10]:
+            print(f"  • [{q['score']}/100] {q['employer']} - {q['title']} ({q['location']})")
+            print(f"    URL: {q['url']}")
         return
 
     if args.generate_resumes:
@@ -152,10 +173,9 @@ def main():
 
     if args.scheduler:
         def scheduled_cycle():
-            s = SyntheticJobSource()
-            for j in s.discover_jobs(limit=10):
-                engine.process_job(j)
-            engine.generate_daily_report()
+            from scheduler.daily_agent import AutonomousDailyScrapingAgent
+            agent = AutonomousDailyScrapingAgent(profile=profile, repository=repo, notifier=notifier, mode=args.mode)
+            agent.run_daily_cycle(limit_per_source=15)
 
         scheduler = BackgroundJobScheduler(run_discovery_fn=scheduled_cycle, interval_minutes=60)
         scheduler.start()

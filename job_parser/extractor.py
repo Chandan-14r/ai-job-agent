@@ -53,11 +53,22 @@ EXP_PATTERNS = [
     r"(?:experience|exp)\s*:\s*(\d+(?:\.\d+)?)\+?\s*(?:years?|yrs?)",
 ]
 
-# Strict role exclusions (BPO, tech support, telemarketing, data entry, sales)
+# Strict role exclusions (BPO, tech support, telemarketing, data entry, sales, designers, managers, directors, non-target roles)
 EXCLUDED_ROLES_PATTERN = re.compile(
-    r"\b(tech(?:nical)?\s+support|helpdesk|desktop\s+support|bpo|kpo|call\s+center|"
+    r"\b("
+    r"tech(?:nical)?\s+support|helpdesk|desktop\s+support|bpo|kpo|call\s+center|"
     r"customer\s+(?:support|care|service|executive)|telecaller|telesales|sales\s+executive|"
-    r"business\s+development|bde|data\s+entry|hardware\s+networking|system\s+administrator)\b",
+    r"business\s+development|bde|data\s+entry|hardware\s+networking|system\s+administrator|"
+    r"ui[/-]?ux|ux[/-]?ui|graphic\s+designer|web\s+designer|creative\s+designer|visual\s+designer|"
+    r"product\s+designer|ui\s+designer|ux\s+designer|animator|illustrator|fashion\s+designer|interior\s+designer|"
+    r"director|engineering\s+manager|project\s+manager|product\s+manager|program\s+manager|general\s+manager|"
+    r"scrum\s+master|team\s+lead|vice\s+president|vp\s+|chief|cto|ceo|head\s+of|"
+    r"devops|sre|site\s+reliability|cloud\s+architect|solutions\s+architect|infrastructure\s+engineer|"
+    r"field\s+engineer|sales\s+engineer|solutions\s+engineer|incident\s+response|security\s+operations|"
+    r"ios\s+developer|android\s+developer|flutter\s+developer|swift\s+developer|embedded\s+engineer|firmware\s+engineer|"
+    r"content\s+writer|copywriter|digital\s+marketing|seo\s+executive|recruiter|human\s+resources|hr\s+executive|"
+    r"accountant|financial\s+analyst"
+    r")\b",
     re.IGNORECASE,
 )
 

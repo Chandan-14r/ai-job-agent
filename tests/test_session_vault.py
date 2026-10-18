@@ -269,6 +269,9 @@ def test_portal_browser_connectors_otp_flow(tmp_path, monkeypatch):
     monkeypatch.setattr(NaukriBrowserConnector, "_portal_send_otp", lambda self, page, phone: True)
     monkeypatch.setattr(InternshalaBrowserConnector, "_portal_send_otp", lambda self, page, phone: True)
     monkeypatch.setattr(LinkedInBrowserConnector, "_portal_send_otp", lambda self, page, phone: True)
+    monkeypatch.setattr(NaukriBrowserConnector, "_portal_verify_otp", lambda self, page, otp: True)
+    monkeypatch.setattr(InternshalaBrowserConnector, "_portal_verify_otp", lambda self, page, otp: True)
+    monkeypatch.setattr(LinkedInBrowserConnector, "_portal_verify_otp", lambda self, page, otp: True)
     monkeypatch.setattr(NaukriBrowserConnector, "_scrape_portal_jobs", lambda self, page, q, l, limit: self._get_fallback_genuine_jobs(q, l, limit))
     monkeypatch.setattr(InternshalaBrowserConnector, "_scrape_portal_jobs", lambda self, page, q, l, limit: self._get_fallback_genuine_jobs(q, l, limit))
     monkeypatch.setattr(LinkedInBrowserConnector, "_scrape_portal_jobs", lambda self, page, q, l, limit: self._get_fallback_genuine_jobs(q, l, limit))
@@ -310,14 +313,45 @@ def test_portal_browser_connectors_otp_flow(tmp_path, monkeypatch):
         assert not conn.has_valid_session()
 
 
+def test_portal_rejects_invalid_otp(tmp_path, monkeypatch):
+    """Verify entering random or invalid OTP is strictly rejected and never marks vault as authenticated."""
+    vault = SessionVault(session_dir=tmp_path / "sessions_rej")
+    monkeypatch.setattr(NaukriBrowserConnector, "_portal_send_otp", lambda self, page, phone: True)
+    # Portal rejects the OTP:
+    monkeypatch.setattr(NaukriBrowserConnector, "_portal_verify_otp", lambda self, page, otp: False)
+
+    conn = NaukriBrowserConnector(session_vault=vault)
+    conn.send_otp("+91 9876543210")
+
+    # Enter fake / random OTP
+    res = conn.verify_otp("000000")
+    assert res["status"] == "error"
+    assert "Invalid OTP code" in res["message"] or "rejected" in res["message"]
+    assert not conn.has_valid_session()
+    assert vault.get_portal_status("naukri")["status"] != "AUTHENTICATED"
+
+
 def test_dashboard_portal_endpoints(tmp_path, monkeypatch):
     """Verify Flask dashboard portal API endpoints with isolated session vault."""
     db_file = tmp_path / "test_dash.db"
     repo = ApplicationRepository(db_path=db_file)
     vault = SessionVault(session_dir=tmp_path / "test_sessions")
 
+    sample_jobs = [
+        JobExtractor.parse_job(
+            title="Junior Python Full Stack Developer",
+            employer="InnovateLabs India",
+            description="Looking for Junior Python Full Stack Developer (0-1 yrs exp). Skills: Python, Django, SQL, JavaScript, HTML, CSS. Location: Bengaluru. Package: 5.0 - 7.0 LPA.",
+            job_url="https://www.naukri.com/job-listings-python-dev-innovatelabs-12345",
+            source_platform="naukri",
+            location_raw="Bengaluru, Karnataka",
+            salary_raw="5.0 - 7.0 LPA",
+            verification_status="VERIFIED_ACTIVE",
+        )
+    ]
     monkeypatch.setattr(NaukriBrowserConnector, "_portal_send_otp", lambda self, page, phone: True)
-    monkeypatch.setattr(NaukriBrowserConnector, "_scrape_portal_jobs", lambda self, page, q, l, limit: self._get_fallback_genuine_jobs(q, l, limit))
+    monkeypatch.setattr(NaukriBrowserConnector, "_portal_verify_otp", lambda self, page, otp: True)
+    monkeypatch.setattr(NaukriBrowserConnector, "_scrape_portal_jobs", lambda self, page, q, l, limit: sample_jobs)
 
     app = create_app(repo=repo, session_vault=vault)
     client = app.test_client()
