@@ -36,8 +36,8 @@ class InternshalaBrowserConnector(BaseBrowserConnector):
         """Navigate to Internshala login, enter phone number, and trigger OTP dispatch."""
         logger.info(f"[internshala] Navigating to {self.login_url} for phone: {phone_number}")
         try:
-            page.goto(self.login_url, timeout=20000, wait_until="domcontentloaded")
-            time.sleep(1.5)
+            page.goto(self.login_url, timeout=30000, wait_until="networkidle")
+            page.wait_for_timeout(1500)
 
             # Close any promotional banners or popups
             try:
@@ -48,24 +48,24 @@ class InternshalaBrowserConnector(BaseBrowserConnector):
                 pass
 
             # Internshala email/phone field
-            input_sel = "#email, input[name='email'], input[placeholder*='Email'], input[type='tel']"
+            input_sel = "#email, input[name='email'], input[placeholder*='Email'], input[type='tel'], input[placeholder*='Phone']"
             page.wait_for_selector(input_sel, timeout=10000)
             phone_field = page.query_selector(input_sel)
             if phone_field:
                 phone_field.fill(phone_number)
-                time.sleep(0.5)
+                page.wait_for_timeout(600)
 
             # Toggle login with OTP if link exists
-            otp_link_sel = "a:has-text('Login with OTP'), button:has-text('Login with OTP'), a:has-text('OTP'), button:has-text('Get OTP')"
+            otp_link_sel = "a:has-text('Login with OTP'), button:has-text('Login with OTP'), a:has-text('OTP'), button:has-text('Get OTP'), button:has-text('Send OTP')"
             otp_link = page.query_selector(otp_link_sel)
             if otp_link:
                 otp_link.click()
-                time.sleep(1.0)
+                page.wait_for_timeout(1500)
             else:
                 submit_btn = page.query_selector("#login_submit, button[type='submit']")
                 if submit_btn:
                     submit_btn.click()
-                    time.sleep(1.0)
+                    page.wait_for_timeout(1500)
 
             return True
 

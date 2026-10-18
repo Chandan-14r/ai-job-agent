@@ -36,22 +36,22 @@ class LinkedInBrowserConnector(BaseBrowserConnector):
         """Navigate to LinkedIn login, enter phone number, and trigger challenge/verification code."""
         logger.info(f"[linkedin] Navigating to {self.login_url} for phone: {phone_number}")
         try:
-            page.goto(self.login_url, timeout=20000, wait_until="domcontentloaded")
-            time.sleep(1.5)
+            page.goto(self.login_url, timeout=30000, wait_until="networkidle")
+            page.wait_for_timeout(1500)
 
             # Username / phone input on LinkedIn
-            input_sel = "#username, input[name='session_key'], input[id='username']"
+            input_sel = "#username, input[name='session_key'], input[id='username'], input[placeholder*='Email or phone']"
             page.wait_for_selector(input_sel, timeout=10000)
             username_field = page.query_selector(input_sel)
             if username_field:
                 username_field.fill(phone_number)
-                time.sleep(0.5)
+                page.wait_for_timeout(600)
 
             # Check if there is a password-less or OTP prompt, or submit to trigger verification
             submit_btn = page.query_selector("button[type='submit'], .btn__primary--large")
             if submit_btn:
                 submit_btn.click()
-                time.sleep(1.5)
+                page.wait_for_timeout(2000)
 
             return True
 

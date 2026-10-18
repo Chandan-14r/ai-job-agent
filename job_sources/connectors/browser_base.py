@@ -7,6 +7,8 @@ and error-resilient genuine job scraping.
 from __future__ import annotations
 
 import logging
+import os
+import sys
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -24,6 +26,46 @@ logger = logging.getLogger("browser_connector")
 # {portal: {"playwright": p, "browser": b, "context": c, "page": page, "phone": phone, "timestamp": float}}
 _ACTIVE_OTP_SESSIONS: Dict[str, Dict[str, Any]] = {}
 OTP_SESSION_TTL_SECONDS = 300  # 5 minutes
+
+
+def launch_stealth_browser(pw, headless: Optional[bool] = None) -> Browser:
+    """Launch browser with stealth flags and Chrome channel where available to bypass bot detection."""
+    if headless is None:
+        env_val = os.getenv("HEADLESS_BROWSER")
+        if env_val is not None:
+            headless = env_val.lower() == "true"
+        else:
+            # On Windows local desktop, default to False to bypass Akamai/Cloudflare 403 blocks
+            headless = False if sys.platform == "win32" else True
+
+    chrome_paths = [
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+    ]
+    has_local_chrome = any(os.path.exists(p) for p in chrome_paths)
+
+    args = [
+        "--disable-blink-features=AutomationControlled",
+        "--no-sandbox",
+        "--disable-infobars",
+        "--disable-dev-shm-usage",
+        "--disable-extensions",
+    ]
+
+    if has_local_chrome:
+        try:
+            return pw.chromium.launch(
+                channel="chrome",
+                headless=headless,
+                args=args,
+            )
+        except Exception as e:
+            logger.warning(f"Failed to launch with channel='chrome': {e}. Falling back to default chromium.")
+
+    return pw.chromium.launch(
+        headless=headless,
+        args=args,
+    )
 
 
 class BaseBrowserConnector(BaseJobSource, ABC):
@@ -75,7 +117,7 @@ class BaseBrowserConnector(BaseJobSource, ABC):
     def send_otp(self, phone_number: str) -> Dict[str, Any]:
         """
         Initiate Phone + OTP login on the portal using Playwright.
-        Launches Chromium, navigates to login, inputs phone, and triggers OTP.
+        Launches stealth Chrome/Chromium, navigates to login, inputs phone, and triggers OTP.
         Keeps the browser open in _ACTIVE_OTP_SESSIONS for subsequent verify_otp call.
         """
         clean_phone = phone_number.strip()
@@ -93,14 +135,16 @@ class BaseBrowserConnector(BaseJobSource, ABC):
         )
 
         try:
-            headless = os.getenv("HEADLESS_BROWSER", "true").lower() == "true"
             pw = sync_playwright().start()
-            browser = pw.chromium.launch(headless=headless)
+            browser = launch_stealth_browser(pw)
             context = browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
                 viewport={"width": 1280, "height": 800},
+                locale="en-IN",
+                timezone_id="Asia/Kolkata",
             )
             page = context.new_page()
+            page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
             # Execute portal-specific OTP dispatch logic
             otp_sent = self._portal_send_otp(page, clean_phone)
@@ -252,15 +296,17 @@ class BaseBrowserConnector(BaseJobSource, ABC):
         jobs: List[ParsedJob] = []
 
         try:
-            headless = os.getenv("HEADLESS_BROWSER", "true").lower() == "true"
             with sync_playwright() as p:
-                browser = p.chromium.launch(headless=headless)
+                browser = launch_stealth_browser(p)
                 context = browser.new_context(
                     storage_state=storage_state_path,
                     user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
                     viewport={"width": 1280, "height": 800},
+                    locale="en-IN",
+                    timezone_id="Asia/Kolkata",
                 )
                 page = context.new_page()
+                page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
                 # Execute portal scraping
                 jobs = self._scrape_portal_jobs(page, query, location, limit)

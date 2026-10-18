@@ -34,13 +34,13 @@ class NaukriBrowserConnector(BaseBrowserConnector):
         )
 
     def _portal_send_otp(self, page: Page, phone_number: str) -> bool:
-        """Navigate to Naukri login, enter phone number, and trigger OTP dispatch."""
+        """Navigate to Naukri login, switch to OTP tab, enter phone number, and trigger SMS dispatch."""
         logger.info(f"[naukri] Navigating to {self.login_url} for phone: {phone_number}")
         try:
-            page.goto(self.login_url, timeout=20000, wait_until="domcontentloaded")
-            time.sleep(1.5)
+            page.goto(self.login_url, timeout=30000, wait_until="networkidle")
+            page.wait_for_timeout(1500)
 
-            # Check if cookie banner or modal exists and close it
+            # Close any promotional banners or cookie popups
             try:
                 close_btn = page.query_selector(".crossIcon, .close, [aria-label='Close']")
                 if close_btn:
@@ -48,32 +48,38 @@ class NaukriBrowserConnector(BaseBrowserConnector):
             except Exception:
                 pass
 
-            # Naukri has username / email / mobile input
-            input_sel = "#usernameField, input[placeholder*='Username'], input[placeholder*='Email'], input[placeholder*='Mobile']"
-            page.wait_for_selector(input_sel, timeout=10000)
-            username_field = page.query_selector(input_sel)
-            if username_field:
-                username_field.fill(phone_number)
-                time.sleep(0.5)
+            # Step 1: Click "Use OTP to Login" if present
+            otp_btn = page.query_selector("button:has-text('Use OTP to Login'), .otp-link, a:has-text('Use OTP')")
+            if otp_btn:
+                logger.info("[naukri] Clicking 'Use OTP to Login'...")
+                otp_btn.click()
+                page.wait_for_timeout(1500)
 
-            # Click "Use OTP" / "Sign in with OTP" button or link
-            otp_link_sel = "button:has-text('Use OTP'), a:has-text('Use OTP'), button:has-text('Sign in with OTP'), .otp-link, button:has-text('Get OTP')"
-            otp_link = page.query_selector(otp_link_sel)
-            if otp_link:
-                otp_link.click()
-                time.sleep(1.0)
-            else:
-                # Some versions submit username first to reveal OTP screen
-                submit_btn = page.query_selector("button[type='submit']")
-                if submit_btn:
-                    submit_btn.click()
-                    time.sleep(1.0)
+            # Step 2: Look for phone / mobile number input
+            tel_input = page.wait_for_selector("input[type='tel'], input[placeholder*='10 digit'], #usernameField, input[placeholder*='Mobile']", timeout=8000)
+            if tel_input:
+                logger.info(f"[naukri] Entering phone {phone_number}...")
+                tel_input.fill(phone_number)
+                page.wait_for_timeout(800)
 
-            # Verify OTP input is present or awaiting
+            # Step 3: Click "Get OTP" or "Send OTP" button
+            get_otp_btn = page.query_selector("button:has-text('Get OTP'), button:has-text('Send OTP'), button[type='submit']")
+            if get_otp_btn:
+                logger.info("[naukri] Triggering genuine OTP SMS dispatch via 'Get OTP' button...")
+                get_otp_btn.click()
+                page.wait_for_timeout(2500)
+
+            # Step 4: Verify OTP input field has rendered
+            try:
+                page.wait_for_selector("input[placeholder*='OTP'], input[placeholder*='Enter OTP'], input[maxlength='6']", timeout=6000)
+                logger.info("[naukri] OTP input rendered on Naukri portal! SMS dispatched to candidate.")
+            except PlaywrightTimeoutError:
+                logger.info("[naukri] OTP form submitted; waiting for user SMS entry.")
+
             return True
 
-        except PlaywrightTimeoutError:
-            logger.warning("[naukri] Navigation or element timeout on login page. Falling back to pending OTP state.")
+        except PlaywrightTimeoutError as e:
+            logger.warning(f"[naukri] Timeout during OTP dispatch sequence: {e}. Transitioning to pending OTP state.")
             return True
         except Exception as e:
             logger.error(f"[naukri] Error during OTP dispatch: {e}")
@@ -81,25 +87,29 @@ class NaukriBrowserConnector(BaseBrowserConnector):
 
     def _portal_verify_otp(self, page: Page, otp_code: str) -> bool:
         """Fill OTP input and verify login on Naukri."""
-        logger.info("[naukri] Verifying OTP on Naukri page")
+        logger.info(f"[naukri] Verifying OTP on Naukri page with code: {otp_code}")
         try:
-            # Common OTP input selectors on Naukri
-            otp_sel = "input[type='tel'], input.otp-input, input[name*='otp'], input[placeholder*='OTP'], input[id*='otp']"
+            # Common OTP input selectors on Naukri (single 6-digit input or digit boxes)
+            otp_sel = "input[placeholder*='Enter OTP'], input[placeholder*='OTP'], input[maxlength='6'], input[name*='otp'], input.otp-input"
             otp_inputs = page.query_selector_all(otp_sel)
 
             if len(otp_inputs) == 1:
                 otp_inputs[0].fill(otp_code)
             elif len(otp_inputs) > 1:
-                # Individual digits
                 for i, digit in enumerate(otp_code[:len(otp_inputs)]):
                     otp_inputs[i].fill(digit)
+            else:
+                # Try fallback selector
+                fb = page.query_selector("input[type='tel'], input[type='text']")
+                if fb:
+                    fb.fill(otp_code)
 
-            time.sleep(0.5)
-            verify_btn_sel = "button:has-text('Verify'), button:has-text('Sign in'), button:has-text('Login'), button[type='submit']"
+            page.wait_for_timeout(500)
+            verify_btn_sel = "button:has-text('Verify'), button:has-text('Login'), button:has-text('Sign in'), button[type='submit']"
             verify_btn = page.query_selector(verify_btn_sel)
             if verify_btn:
                 verify_btn.click()
-                time.sleep(2.0)
+                page.wait_for_timeout(2000)
 
             return True
         except Exception as e:
