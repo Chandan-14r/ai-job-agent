@@ -146,7 +146,9 @@ class InternshalaBrowserConnector(BaseBrowserConnector):
                     job_url = f"https://internshala.com{href_val}" if href_val and href_val.startswith("/") else (href_val or "")
 
                     comp_el = el.query_selector(".company-name, .link_display_like_text, .company_name")
-                    company = comp_el.inner_text().strip() if comp_el else "Internshala Verified Employer"
+                    raw_comp = comp_el.inner_text().strip() if comp_el else "Internshala Verified Employer"
+                    company = raw_comp.split("\n")[0].strip()
+                    company = re.sub(r'(?i)\s*(actively hiring|hiring actively).*$', '', company).strip()
 
                     loc_el = el.query_selector("a.location_link, .locations, #location_names")
                     loc_text = loc_el.inner_text().strip() if loc_el else "Bengaluru"

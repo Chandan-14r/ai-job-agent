@@ -37,8 +37,8 @@ class NaukriBrowserConnector(BaseBrowserConnector):
         """Navigate to Naukri login, switch to OTP tab, enter phone number, and trigger SMS dispatch."""
         logger.info(f"[naukri] Navigating to {self.login_url} for phone: {phone_number}")
         try:
-            page.goto(self.login_url, timeout=30000, wait_until="networkidle")
-            page.wait_for_timeout(1500)
+            page.goto(self.login_url, timeout=30000, wait_until="domcontentloaded")
+            page.wait_for_timeout(2000)
 
             # Close any promotional banners or cookie popups
             try:
@@ -56,34 +56,50 @@ class NaukriBrowserConnector(BaseBrowserConnector):
                 page.wait_for_timeout(1500)
 
             # Step 2: Look for phone / mobile number input
-            tel_input = page.wait_for_selector("input[type='tel'], input[placeholder*='10 digit'], #usernameField, input[placeholder*='Mobile']", timeout=8000)
+            tel_input = page.wait_for_selector(
+                "input[placeholder*='10 digit'], input.mobileInputt, input[type='tel'], #usernameField, input[placeholder*='Mobile']",
+                timeout=8000
+            )
             if tel_input:
                 logger.info(f"[naukri] Entering phone {phone_number}...")
                 tel_input.fill(phone_number)
                 page.wait_for_timeout(800)
+            else:
+                logger.error("[naukri] Could not locate mobile number input field.")
+                return False
 
-            # Step 3: Click "Get OTP" or "Send OTP" button
-            get_otp_btn = page.query_selector("button:has-text('Get OTP'), button:has-text('Send OTP'), button[type='submit']")
+            # Step 3: Click "Get OTP" button
+            get_otp_btn = page.query_selector("button.sndbtn, button:has-text('Get OTP'), button[type='submit']")
             if get_otp_btn:
                 logger.info("[naukri] Triggering genuine OTP SMS dispatch via 'Get OTP' button...")
                 get_otp_btn.click()
-                page.wait_for_timeout(2500)
+                page.wait_for_timeout(3000)
+            else:
+                logger.error("[naukri] Could not locate 'Get OTP' button.")
+                return False
 
-            # Step 4: Verify OTP input field has rendered
+            # Step 4: Verify OTP input field has rendered or inspect confirmation
+            page_text = page.inner_text("body")
+            if "not registered" in page_text.lower():
+                logger.warning(f"[naukri] Note: {phone_number} may not be registered on Naukri.com.")
+
             try:
-                page.wait_for_selector("input[placeholder*='OTP'], input[placeholder*='Enter OTP'], input[maxlength='6']", timeout=6000)
+                page.wait_for_selector(
+                    "input[placeholder*='Enter OTP'], input.mobileInput, input[maxlength='6'], input[placeholder*='OTP']",
+                    timeout=8000
+                )
                 logger.info("[naukri] OTP input rendered on Naukri portal! SMS dispatched to candidate.")
+                return True
             except PlaywrightTimeoutError:
-                logger.info("[naukri] OTP form submitted; waiting for user SMS entry.")
-
-            return True
+                logger.info("[naukri] Waiting for candidate to enter received SMS code.")
+                return True
 
         except PlaywrightTimeoutError as e:
-            logger.warning(f"[naukri] Timeout during OTP dispatch sequence: {e}. Transitioning to pending OTP state.")
-            return True
+            logger.warning(f"[naukri] Timeout during OTP dispatch sequence: {e}.")
+            return False
         except Exception as e:
             logger.error(f"[naukri] Error during OTP dispatch: {e}")
-            return True
+            return False
 
     def _portal_verify_otp(self, page: Page, otp_code: str) -> bool:
         """Fill OTP input and verify login on Naukri with strict validation."""

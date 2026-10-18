@@ -996,8 +996,9 @@
             <!-- Status Filter -->
             <div class="col-md-2">
                 <select id="filter-status" class="form-select form-select-sm cyber-input" onchange="applyFilters()">
-                    <option value="">All Statuses</option>
-                    <option value="QUALIFIED">Qualified</option>
+                    <option value="">Active Qualified (Default)</option>
+                    <option value="ALL">All Statuses (Inc. Vetoed)</option>
+                    <option value="QUALIFIED">Qualified Only</option>
                     <option value="AWAITING_MANUAL_ACTION">Awaiting Action</option>
                     <option value="SUBMITTED">Submitted</option>
                     <option value="REJECTED">Vetoed / Rejected</option>
@@ -1385,7 +1386,7 @@
             const score = parseInt(card.getAttribute('data-score') || '0', 10);
 
             const matchSearch = !searchVal || title.includes(searchVal) || employer.includes(searchVal);
-            const matchStatus = !statusVal || status === statusVal;
+            const matchStatus = !statusVal ? (status !== 'REJECTED') : (statusVal === 'ALL' ? true : status === statusVal);
             const matchWork = !workVal || work.toLowerCase().includes(workVal.toLowerCase());
             const matchVerif = !verifVal || verif === verifVal;
             const matchScore = score >= activeScoreFilter;
@@ -1404,7 +1405,7 @@
             const score = parseInt(row.getAttribute('data-score') || '0', 10);
 
             const matchSearch = !searchVal || title.includes(searchVal) || employer.includes(searchVal);
-            const matchStatus = !statusVal || status === statusVal;
+            const matchStatus = !statusVal ? (status !== 'REJECTED') : (statusVal === 'ALL' ? true : status === statusVal);
             const matchWork = !workVal || work.toLowerCase().includes(workVal.toLowerCase());
             const matchVerif = !verifVal || verif === verifVal;
             const matchScore = score >= activeScoreFilter;

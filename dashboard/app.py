@@ -125,6 +125,10 @@ def create_app(
             limit=150,
         )
 
+        # By default, display qualified and active opportunities (exclude REJECTED unless explicitly filtered)
+        if not status_filter or status_filter == "":
+            applications = [a for a in applications if a.application_status != "REJECTED"]
+
         kpis = repository.get_kpi_summary(demo_mode=(demo_only is True))
         telegram_status = "CONNECTED" if notifier.is_configured else "NOT_CONFIGURED"
 

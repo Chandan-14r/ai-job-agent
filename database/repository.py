@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import sqlite3
 import uuid
 from datetime import datetime, date
@@ -12,17 +13,21 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from .models import Application, ApplicationStatus, ApplicationStatusHistory, VALID_STATE_TRANSITIONS
 
+logger = logging.getLogger(__name__)
+
 
 class ApplicationRepository:
-    def __init__(self, db_path: Optional[Path | str] = None):
+    def __init__(self, db_path: Optional[Path | str] = None, auto_seed: bool = False):
         if db_path is None:
             base_dir = Path(__file__).resolve().parent.parent
             data_dir = base_dir / "data"
             data_dir.mkdir(parents=True, exist_ok=True)
             self.db_path = data_dir / "applications.db"
+            self.auto_seed = True
         else:
             self.db_path = Path(db_path)
             self.db_path.parent.mkdir(parents=True, exist_ok=True)
+            self.auto_seed = auto_seed
 
         self._init_db()
 
@@ -107,6 +112,27 @@ class ApplicationRepository:
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_apps_synthetic ON applications(is_synthetic);")
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_apps_verification ON applications(verification_status);")
             conn.commit()
+
+            # Auto-seed verified baseline jobs if table is empty on default DB (e.g. fresh clone or Render deployment)
+            if self.auto_seed and self.db_path != ":memory:":
+                try:
+                    cursor.execute("SELECT COUNT(*) FROM applications;")
+                    if cursor.fetchone()[0] == 0:
+                        seed_file = Path(self.db_path).resolve().parent / "seed_jobs.json"
+                        if not seed_file.exists():
+                            seed_file = Path(__file__).resolve().parent.parent / "data" / "seed_jobs.json"
+                        if seed_file.exists():
+                            with open(seed_file, "r", encoding="utf-8") as sf:
+                                seed_data = json.load(sf)
+                            for r in seed_data:
+                                keys = list(r.keys())
+                                placeholders = ", ".join(["?"] * len(keys))
+                                col_str = ", ".join(keys)
+                                cursor.execute(f"INSERT OR IGNORE INTO applications ({col_str}) VALUES ({placeholders})", list(r.values()))
+                            conn.commit()
+                            logger.info(f"Loaded {len(seed_data)} verified jobs from seed_jobs.json into fresh database")
+                except Exception as se:
+                    logger.warning(f"Auto-seed check error: {se}")
 
     def add_application(self, app: Application) -> Application:
         """Insert a newly discovered application."""
