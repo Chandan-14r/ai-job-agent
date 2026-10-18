@@ -48,6 +48,37 @@ class TelegramNotifier:
             and self.chat_id != "your_telegram_chat_id_here"
         )
 
+    def configure(self, bot_token: str, chat_id: str) -> None:
+        """Update active credentials in memory."""
+        self.bot_token = bot_token.strip()
+        self.chat_id = chat_id.strip()
+
+    def test_connection(self) -> tuple[bool, str]:
+        """Test active credentials against the live Telegram API."""
+        if not self.bot_token or not self.chat_id:
+            return False, "Bot Token and Chat ID are both required."
+        url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
+        payload = {
+            "chat_id": self.chat_id,
+            "text": (
+                "🤖 <b>ANTIGRAVITY AUTONOMOUS JOB AGENT</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━\n"
+                "✅ <b>Telegram Connection Verified!</b>\n\n"
+                "Your autonomous agent is now connected to this chat.\n"
+                "You will receive instant alerts for qualified jobs (≥ ₹4.0 LPA in Bengaluru/Remote)."
+            ),
+            "parse_mode": "HTML",
+        }
+        try:
+            resp = requests.post(url, json=payload, timeout=10)
+            if resp.status_code == 200:
+                return True, "Telegram connection verified. Confirmation alert sent to your Telegram chat!"
+            err_data = resp.json()
+            desc = err_data.get("description", f"Telegram API error {resp.status_code}")
+            return False, f"Telegram API error: {desc}"
+        except Exception as e:
+            return False, f"Connection error: {str(e)}"
+
     def send_message(self, html_text: str, event_id: Optional[str] = None) -> bool:
         """
         Send an HTML-formatted message to the configured Telegram chat.

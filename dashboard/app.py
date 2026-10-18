@@ -364,6 +364,73 @@ def create_app(
             "message": "Telegram message dispatched." if notifier.is_configured else "Mock message logged. Configure .env with TELEGRAM_BOT_TOKEN to receive real alerts.",
         })
 
+    @app.route("/api/telegram/status")
+    def api_telegram_status():
+        from telegram_notifications.notifier import mask_secret
+        return jsonify({
+            "status": "success",
+            "is_configured": notifier.is_configured,
+            "masked_token": mask_secret(notifier.bot_token),
+            "masked_chat_id": mask_secret(notifier.chat_id),
+        })
+
+    @app.route("/api/telegram/configure", methods=["POST"])
+    def api_telegram_configure():
+        data = request.get_json() or {}
+        bot_token = data.get("bot_token", "").strip()
+        chat_id = data.get("chat_id", "").strip()
+
+        if not bot_token or not chat_id:
+            return jsonify({
+                "status": "error",
+                "message": "Both Telegram Bot Token and Chat ID are required.",
+            }), 400
+
+        notifier.configure(bot_token, chat_id)
+        success, reason = notifier.test_connection()
+
+        if not success:
+            return jsonify({
+                "status": "error",
+                "message": f"Telegram test failed: {reason}",
+            }), 400
+
+        env_path = project_root / ".env"
+        lines = []
+        if env_path.exists():
+            with open(env_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+
+        token_set = False
+        chat_set = False
+        new_lines = []
+        for line in lines:
+            if line.startswith("TELEGRAM_BOT_TOKEN="):
+                new_lines.append(f"TELEGRAM_BOT_TOKEN={bot_token}\n")
+                token_set = True
+            elif line.startswith("TELEGRAM_CHAT_ID="):
+                new_lines.append(f"TELEGRAM_CHAT_ID={chat_id}\n")
+                chat_set = True
+            else:
+                new_lines.append(line)
+
+        if not token_set:
+            new_lines.append(f"TELEGRAM_BOT_TOKEN={bot_token}\n")
+        if not chat_set:
+            new_lines.append(f"TELEGRAM_CHAT_ID={chat_id}\n")
+
+        with open(env_path, "w", encoding="utf-8") as f:
+            f.writelines(new_lines)
+
+        os.environ["TELEGRAM_BOT_TOKEN"] = bot_token
+        os.environ["TELEGRAM_CHAT_ID"] = chat_id
+
+        return jsonify({
+            "status": "success",
+            "is_configured": True,
+            "message": "Telegram Bot successfully connected and saved! Check your Telegram for the confirmation message.",
+        })
+
     @app.route("/api/job_details/<job_id>")
     def job_details(job_id: str):
         app_obj = repository.get_application_by_id(job_id)

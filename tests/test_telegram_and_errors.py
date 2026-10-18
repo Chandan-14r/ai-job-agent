@@ -90,3 +90,26 @@ def test_telegram_idempotent_event_deduplication():
     # Second dispatch with identical event_id -> True (skipped silently as duplicate)
     assert notifier.send_message(text, event_id=event_id)
     assert event_id or text
+
+
+def test_telegram_configure_and_mock_api(monkeypatch):
+    """Verify in-memory configuration and API validation for Telegram."""
+    notifier = TelegramNotifier()
+    assert not notifier.is_configured
+
+    notifier.configure("123456:FAKE_TOKEN_ABC", "987654321")
+    assert notifier.is_configured
+    assert notifier.bot_token == "123456:FAKE_TOKEN_ABC"
+    assert notifier.chat_id == "987654321"
+
+    # Mock requests.post to simulate successful Telegram response
+    class MockResp:
+        status_code = 200
+        def json(self):
+            return {"ok": True}
+
+    monkeypatch.setattr("requests.post", lambda url, json, timeout: MockResp())
+    success, reason = notifier.test_connection()
+    assert success
+    assert "verified" in reason.lower()
+
