@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity Autonomous AI Job Agent | Kiran A N</title>
+    <!-- Modern Typography: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --header-navy: #0B132B;
+            --header-surface: #1C2541;
+            --bg-app: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --border-subtle: #E2E8F0;
+            --border-strong: #CBD5E1;
+            --text-heading: #0F172A;
+            --text-body: #334155;
+            --text-muted: #64748B;
+            --primary-blue: #2563EB;
+            --primary-blue-hover: #1D4ED8;
+            --primary-blue-subtle: #EFF6FF;
+            --emerald-green: #10B981;
+            --emerald-subtle: #ECFDF5;
+            --emerald-border: #A7F3D0;
+            --amber-orange: #F59E0B;
+            --amber-subtle: #FFFBEB;
+            --amber-border: #FDE68A;
+            --rose-red: #EF4444;
+            --rose-subtle: #FEF2F2;
+            --cyan-accent: #06B6D4;
+            --cyan-subtle: #ECFEFF;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-body);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Header Styling */
+        .app-header {
+            background-color: var(--header-navy);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .app-brand-badge {
+            background: linear-gradient(135deg, #2563EB, #06B6D4);
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+        .header-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #F1F5F9;
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 0.82rem;
+            transition: all 0.15s ease;
+        }
+        .header-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+        }
+
+        /* Cards & Surfaces */
+        .saas-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+        }
+        .card-hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-strong);
+        }
+
+        /* KPI Metric Cards */
+        .kpi-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .kpi-value {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+        .kpi-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+        }
+
+        /* Badges & Pills */
+        .badge-verified-active {
+            background-color: var(--emerald-subtle);
+            color: #047857;
+            border: 1px solid var(--emerald-border);
+            font-weight: 600;
+            font-size: 0.74rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .badge-source-confirmed {
+            background-color: var(--cyan-subtle);
+            color: #0E7490;
+            border: 1px solid #A5F3FC;
+            font-weight: 600;
+            font-size: 0.74rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .badge-demo-warning {
+            background-color: var(--amber-subtle);
+            color: #B45309;
+            border: 1px solid var(--amber-border);
+            font-weight: 700;
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .badge-expired {
+            background-color: var(--rose-subtle);
+            color: #B91C1C;
+            border: 1px solid #FECACA;
+            font-weight: 600;
+            font-size: 0.74rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .score-badge {
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .score-high {
+            background-color: var(--emerald-subtle);
+            color: #065F46;
+            border: 1px solid var(--emerald-border);
+        }
+        .score-med {
+            background-color: var(--primary-blue-subtle);
+            color: #1E40AF;
+            border: 1px solid #BFDBFE;
+        }
+        .score-low {
+            background-color: #F1F5F9;
+            color: #475569;
+            border: 1px solid #CBD5E1;
+        }
+
+        /* Buttons */
+        .btn-saas-primary {
+            background-color: var(--primary-blue);
+            color: #FFFFFF;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 6px 14px;
+            border: none;
+            transition: all 0.15s ease;
+        }
+        .btn-saas-primary:hover {
+            background-color: var(--primary-blue-hover);
+            color: #FFFFFF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+        }
+        .btn-saas-primary:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-saas-outline {
+            background-color: #FFFFFF;
+            color: var(--text-heading);
+            font-weight: 600;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 6px 14px;
+            transition: all 0.15s ease;
+        }
+        .btn-saas-outline:hover {
+            background-color: #F8FAFC;
+            border-color: var(--border-strong);
+            color: var(--primary-blue);
+            transform: translateY(-1px);
+        }
+        .btn-saas-outline:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Company Initial Avatar */
+        .company-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1E293B, #334155);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Mode Switch Tabs */
+        .mode-switch-container {
+            background: #E2E8F0;
+            padding: 3px;
+            border-radius: 10px;
+            display: inline-flex;
+        }
+        .mode-switch-btn {
+            padding: 5px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+            transition: all 0.15s ease;
+        }
+        .mode-switch-btn.active {
+            background: #FFFFFF;
+            color: var(--text-heading);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Portal Connect Cards */
+        .portal-card {
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            background: #FFFFFF;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        /* Micro-animations */
+        @media (prefers-reduced-motion: no-preference) {
+            .fade-in {
+                animation: fadeIn 0.3s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(6px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Application Header -->
+<header class="app-header py-3 px-4 sticky-top shadow-sm">
+    <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <!-- Brand & Candidate Details -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="app-brand-badge text-white">
+                <i class="bi bi-cpu-fill fs-4"></i>
+            </div>
+            <div>
+                <div class="d-flex align-items-center gap-2">
+                    <h5 class="mb-0 text-white fw-bold">Antigravity Autonomous AI Job Agent</h5>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 rounded-pill font-mono small">v2.5 Pro</span>
+                </div>
+                <div class="text-white-50 small mt-1 d-flex flex-wrap align-items-center gap-2">
+                    <span>Candidate: <strong class="text-white">{{ profile.full_name }}</strong></span>
+                    <span>&bull;</span>
+                    <span>Python Full Stack Developer</span>
+                    <span>&bull;</span>
+                    <span>Bengaluru, India</span>
+                    <span>&bull;</span>
+                    <span class="badge bg-dark text-light border border-secondary px-2">B.E. CSE (CGPA 7.98)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Dropdown, Telegram, & Emergency Stop Controls -->
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <!-- Mode Switcher -->
+            <div class="dropdown">
+                <button class="btn header-pill dropdown-toggle fw-semibold" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-gear-fill me-1 text-info"></i> Mode: <span id="current-mode-label">{{ system_state.mode }}</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+                    <li><h6 class="dropdown-header">Autonomous Execution Modes</h6></li>
+                    <li><a class="dropdown-item py-2" href="javascript:void(0)" onclick="switchMode('DISCOVERY_MODE')"><i class="bi bi-shield-check text-success me-2"></i>1. DISCOVERY_MODE (Safe Default)</a></li>
+                    <li><a class="dropdown-item py-2" href="javascript:void(0)" onclick="switchMode('ASSISTED_APPLICATION_MODE')"><i class="bi bi-person-check text-primary me-2"></i>2. ASSISTED_APPLICATION_MODE</a></li>
+                    <li><a class="dropdown-item py-2 text-danger" href="javascript:void(0)" onclick="switchMode('AUTHORIZED_AUTO_APPLY_MODE')"><i class="bi bi-lock-fill me-2"></i>3. AUTHORIZED_AUTO_APPLY_MODE (Locked)</a></li>
+                </ul>
+            </div>
+
+            <!-- Telegram Health Badge -->
+            <button class="btn header-pill fw-semibold {% if telegram_status == 'CONNECTED' %}text-success{% else %}text-warning{% endif %}" onclick="testTelegram()" title="Click to test Telegram bot communication">
+                <i class="bi bi-telegram me-1"></i> <span id="label-telegram">{{ telegram_status }}</span>
+            </button>
+
+            <!-- Emergency Pause/Stop -->
+            <button id="btn-emergency" class="btn btn-sm {% if system_state.emergency_stop %}btn-warning text-dark{% else %}btn-danger{% endif %} fw-bold px-3 py-1.5 rounded-2 shadow-sm" onclick="toggleEmergencyStop()">
+                <i class="bi {% if system_state.emergency_stop %}bi-play-circle-fill{% else %}bi-pause-circle-fill{% endif %} me-1"></i>
+                <span id="emergency-label">{% if system_state.emergency_stop %}Resume Agent{% else %}Emergency Stop{% endif %}</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Main Container -->
+<main class="container-fluid px-4 py-4">
+
+    <!-- Demo Mode Warning Alert Banner (Visible only in demo mode) -->
+    <div id="demo-banner" class="alert alert-warning border-warning border-start border-4 p-3 mb-4 {% if demo_mode != 'true' %}d-none{% endif %} fade-in" role="alert">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-exclamation-triangle-fill fs-4 text-warning"></i>
+                <div>
+                    <strong class="text-dark">DEMO SANDBOX MODE ACTIVE — NOT REAL JOB VACANCIES</strong>
+                    <div class="small text-muted">You are viewing synthetic benchmark fixtures for interface validation. Real candidate applications are disabled in this mode.</div>
+                </div>
+            </div>
+            <a href="/?demo=false" class="btn btn-sm btn-outline-dark fw-bold">Switch to Live Verified Jobs</a>
+        </div>
+    </div>
+
+    <!-- Live Execution Alert / Toast -->
+    <div id="live-alert" class="alert alert-info py-2 px-3 small d-none mb-4 fade-in" role="alert">
+        <div class="d-flex align-items-center justify-content-between">
+            <span id="live-alert-text">Executing operation...</span>
+            <button type="button" class="btn-close btn-close-sm" onclick="document.getElementById('live-alert').classList.add('d-none')"></button>
+        </div>
+    </div>
+
+    <!-- Candidate Preferences & Verified Constraints Bar -->
+    <div class="saas-card p-3 mb-4 border-start border-4 border-primary">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-dark px-3 py-2 fs-7 fw-semibold"><i class="bi bi-currency-rupee me-1"></i> Min Salary: <strong>₹4.0 LPA</strong> (Max: Any)</span>
+                <span class="badge bg-secondary-subtle text-secondary-emphasis border px-3 py-2 fs-7 fw-semibold"><i class="bi bi-geo-alt-fill me-1 text-danger"></i> Strictly: <strong>Bengaluru, Mysuru & Remote (WFH)</strong></span>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 fs-7 fw-semibold"><i class="bi bi-code-slash me-1"></i> Target: <strong>Python Full Stack / Backend / SQL Developer (0-2 Yrs)</strong></span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fs-7 fw-semibold"><i class="bi bi-shield-check me-1"></i> Zero Fabrication Policy Active</span>
+            </div>
+            <div>
+                <button class="btn btn-saas-outline btn-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#profileModal">
+                    <i class="bi bi-person-gear me-1"></i> Edit Preferences & Contact
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5 Live SaaS KPI Metric Cards -->
+    <div class="row g-3 mb-4">
+        <!-- 1. Total Discovered Jobs -->
+        <div class="col-md-6 col-lg-3">
+            <div class="saas-card card-hover-lift p-3 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="kpi-title mb-1">Jobs Discovered</div>
+                        <div class="kpi-value" id="kpi-total">{{ kpis.total_applications }}</div>
+                        <div class="small text-muted mt-1">
+                            <span class="fw-semibold text-dark" id="kpi-ft">{{ kpis.full_time_count }}</span> Full-Time &bull;
+                            <span class="fw-semibold text-dark" id="kpi-int">{{ kpis.internship_count }}</span> Trainee/Intern
+                        </div>
+                    </div>
+                    <div class="kpi-icon-box bg-primary-subtle text-primary">
+                        <i class="bi bi-briefcase-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. High Priority Matches -->
+        <div class="col-md-6 col-lg-3">
+            <div class="saas-card card-hover-lift p-3 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="kpi-title mb-1">High-Priority Matches</div>
+                        <div class="kpi-value text-success" id="kpi-high">{{ kpis.high_priority_matches }}</div>
+                        <div class="small text-success fw-semibold mt-1">
+                            <i class="bi bi-check-circle-fill me-1"></i> Score ≥ 85 (Verified Match)
+                        </div>
+                    </div>
+                    <div class="kpi-icon-box bg-success-subtle text-success">
+                        <i class="bi bi-stars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Submissions Today -->
+        <div class="col-md-6 col-lg-3">
+            <div class="saas-card card-hover-lift p-3 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="kpi-title mb-1">Submissions Today</div>
+                        <div class="kpi-value text-primary"><span id="kpi-sub">{{ kpis.submitted_today }}</span><span class="text-muted fs-5 fw-normal"> / {{ kpis.daily_limit }}</span></div>
+                        <div class="small text-muted mt-1">
+                            <i class="bi bi-clock-history me-1"></i> Strict 10/day Limit Enforced
+                        </div>
+                    </div>
+                    <div class="kpi-icon-box bg-info-subtle text-info">
+                        <i class="bi bi-send-check-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Verified Active URLs -->
+        <div class="col-md-6 col-lg-3">
+            <div class="saas-card card-hover-lift p-3 h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="kpi-title mb-1">Verified Active Links</div>
+                        <div class="kpi-value text-emerald" id="kpi-verified">{{ kpis.verified_active_urls }}</div>
+                        <div class="small text-emerald fw-semibold mt-1">
+                            <i class="bi bi-patch-check-fill me-1 text-success"></i> HTTP 200 Probed Live
+                        </div>
+                    </div>
+                    <div class="kpi-icon-box bg-success-subtle text-success">
+                        <i class="bi bi-link-45deg"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Portal Connection Center (Naukri, Internshala, LinkedIn) -->
+    <div class="saas-card p-4 mb-4 border-top border-4 border-primary">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
+            <div>
+                <h5 class="fw-bold mb-1 text-heading">
+                    <i class="bi bi-shield-lock-fill text-primary me-2"></i>Live Portal Connection Center
+                </h5>
+                <div class="small text-muted">
+                    Authenticate Naukri, Internshala, and LinkedIn via Phone + OTP. Persistent local session caching in <code>session_data/</code>. Zero password exposure.
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-saas-outline" onclick="refreshPortalStatuses(this)">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Refresh Status
+                </button>
+                <button class="btn btn-sm btn-saas-primary shadow-sm" onclick="syncPortalJobs('all', this)">
+                    <i class="bi bi-cloud-arrow-down-fill me-1"></i> Sync All Portals
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <!-- 1. Naukri India -->
+            <div class="col-lg-4">
+                <div class="portal-card shadow-sm">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-primary text-white p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <i class="bi bi-briefcase-fill"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">Naukri India</h6>
+                            </div>
+                            <span id="badge-naukri" class="badge {% if portal_statuses.naukri.status == 'AUTHENTICATED' %}bg-success{% elif portal_statuses.naukri.status == 'PENDING_OTP' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                {% if portal_statuses.naukri.status == 'AUTHENTICATED' %}CONNECTED{% elif portal_statuses.naukri.status == 'PENDING_OTP' %}AWAITING OTP{% else %}DISCONNECTED{% endif %}
+                            </span>
+                        </div>
+                        <p class="small text-muted mb-2">Primary Indian tech career portal. Rate limit: 30 req/hr.</p>
+                        <div class="small mb-3 text-secondary font-mono">
+                            <div><i class="bi bi-phone me-1"></i> <span id="label-phone-naukri">{{ portal_statuses.naukri.masked_phone or 'Not configured' }}</span></div>
+                            {% if portal_statuses.naukri.last_sync_at %}
+                            <div><i class="bi bi-clock-history me-1"></i> Last sync: {{ portal_statuses.naukri.last_sync_at.split('T')[0] }} ({{ portal_statuses.naukri.last_sync_jobs_count }} jobs)</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone & OTP Input Group -->
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold mb-1">Mobile Number</label>
+                            <div class="input-group input-group-sm mb-2">
+                                <input type="tel" id="input-phone-naukri" class="form-control" placeholder="10-digit phone" value="{{ portal_statuses.naukri.phone or profile.contact.phone or '6361473807' }}">
+                                <button class="btn btn-outline-primary" type="button" onclick="sendPortalOtp('naukri', this)">Send OTP</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-2" id="otp-group-naukri">
+                            <label class="form-label small fw-bold mb-1">Enter OTP Code</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="input-otp-naukri" class="form-control" placeholder="6-digit OTP">
+                                <button class="btn btn-success" type="button" onclick="verifyPortalOtp('naukri', this)">Submit OTP</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                        <button class="btn btn-sm btn-outline-primary w-50" onclick="syncPortalJobs('naukri', this)">
+                            <i class="bi bi-arrow-repeat me-1"></i> Sync Jobs
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger w-50" onclick="disconnectPortal('naukri', this)">
+                            <i class="bi bi-power me-1"></i> Disconnect
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Internshala -->
+            <div class="col-lg-4">
+                <div class="portal-card shadow-sm">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-info text-white p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <i class="bi bi-mortarboard-fill"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">Internshala</h6>
+                            </div>
+                            <span id="badge-internshala" class="badge {% if portal_statuses.internshala.status == 'AUTHENTICATED' %}bg-success{% elif portal_statuses.internshala.status == 'PENDING_OTP' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                {% if portal_statuses.internshala.status == 'AUTHENTICATED' %}CONNECTED{% elif portal_statuses.internshala.status == 'PENDING_OTP' %}AWAITING OTP{% else %}DISCONNECTED{% endif %}
+                            </span>
+                        </div>
+                        <p class="small text-muted mb-2">Curated entry-level developer & graduate trainee jobs (≥4 LPA).</p>
+                        <div class="small mb-3 text-secondary font-mono">
+                            <div><i class="bi bi-phone me-1"></i> <span id="label-phone-internshala">{{ portal_statuses.internshala.masked_phone or 'Not configured' }}</span></div>
+                            {% if portal_statuses.internshala.last_sync_at %}
+                            <div><i class="bi bi-clock-history me-1"></i> Last sync: {{ portal_statuses.internshala.last_sync_at.split('T')[0] }} ({{ portal_statuses.internshala.last_sync_jobs_count }} jobs)</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone & OTP Input Group -->
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold mb-1">Mobile Number</label>
+                            <div class="input-group input-group-sm mb-2">
+                                <input type="tel" id="input-phone-internshala" class="form-control" placeholder="10-digit phone" value="{{ portal_statuses.internshala.phone or profile.contact.phone or '6361473807' }}">
+                                <button class="btn btn-outline-info" type="button" onclick="sendPortalOtp('internshala', this)">Send OTP</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-2" id="otp-group-internshala">
+                            <label class="form-label small fw-bold mb-1">Enter OTP Code</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="input-otp-internshala" class="form-control" placeholder="6-digit OTP">
+                                <button class="btn btn-success" type="button" onclick="verifyPortalOtp('internshala', this)">Submit OTP</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                        <button class="btn btn-sm btn-outline-info w-50" onclick="syncPortalJobs('internshala', this)">
+                            <i class="bi bi-arrow-repeat me-1"></i> Sync Jobs
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger w-50" onclick="disconnectPortal('internshala', this)">
+                            <i class="bi bi-power me-1"></i> Disconnect
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. LinkedIn Jobs -->
+            <div class="col-lg-4">
+                <div class="portal-card shadow-sm">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-primary text-white p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #0A66C2 !important;">
+                                    <i class="bi bi-linkedin"></i>
+                                </div>
+                                <h6 class="fw-bold mb-0">LinkedIn Jobs</h6>
+                            </div>
+                            <span id="badge-linkedin" class="badge {% if portal_statuses.linkedin.status == 'AUTHENTICATED' %}bg-success{% elif portal_statuses.linkedin.status == 'PENDING_OTP' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                {% if portal_statuses.linkedin.status == 'AUTHENTICATED' %}CONNECTED{% elif portal_statuses.linkedin.status == 'PENDING_OTP' %}AWAITING OTP{% else %}DISCONNECTED{% endif %}
+                            </span>
+                        </div>
+                        <p class="small text-muted mb-2">Professional network. Discovery allowed, assisted manual submission.</p>
+                        <div class="small mb-3 text-secondary font-mono">
+                            <div><i class="bi bi-phone me-1"></i> <span id="label-phone-linkedin">{{ portal_statuses.linkedin.masked_phone or 'Not configured' }}</span></div>
+                            {% if portal_statuses.linkedin.last_sync_at %}
+                            <div><i class="bi bi-clock-history me-1"></i> Last sync: {{ portal_statuses.linkedin.last_sync_at.split('T')[0] }} ({{ portal_statuses.linkedin.last_sync_jobs_count }} jobs)</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone & OTP Input Group -->
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold mb-1">Mobile Number</label>
+                            <div class="input-group input-group-sm mb-2">
+                                <input type="tel" id="input-phone-linkedin" class="form-control" placeholder="10-digit phone" value="{{ portal_statuses.linkedin.phone or profile.contact.phone or '6361473807' }}">
+                                <button class="btn btn-outline-primary" type="button" onclick="sendPortalOtp('linkedin', this)">Send OTP</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-2" id="otp-group-linkedin">
+                            <label class="form-label small fw-bold mb-1">Enter PIN / Code</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" id="input-otp-linkedin" class="form-control" placeholder="6-digit code">
+                                <button class="btn btn-success" type="button" onclick="verifyPortalOtp('linkedin', this)">Submit PIN</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-3 pt-2 border-top">
+                        <button class="btn btn-sm btn-outline-primary w-50" onclick="syncPortalJobs('linkedin', this)">
+                            <i class="bi bi-arrow-repeat me-1"></i> Sync Jobs
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger w-50" onclick="disconnectPortal('linkedin', this)">
+                            <i class="bi bi-power me-1"></i> Disconnect
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Action Toolbar -->
+    <div class="saas-card p-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <h6 class="fw-bold mb-0 text-heading"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Real-Time Agent Control Actions</h6>
+                <div class="small text-muted">Trigger discovery cycles, generate tailored ATS resumes, or test bot alerts with 1-click.</div>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-saas-primary shadow-sm" onclick="triggerDiscovery(true, this)">
+                    <i class="bi bi-globe me-1"></i> Discover Real Public ATS (Canonical, GitLab)
+                </button>
+                <button class="btn btn-saas-outline shadow-sm" onclick="syncPortalJobs('all', this)">
+                    <i class="bi bi-cloud-arrow-down me-1"></i> Sync Connected Portals
+                </button>
+                <button class="btn btn-saas-outline shadow-sm text-success" onclick="generateResumes(this)">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> Generate All ATS Resumes
+                </button>
+                <button class="btn btn-saas-outline shadow-sm" onclick="testTelegram()">
+                    <i class="bi bi-send me-1"></i> Ping Telegram Bot
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tailored ATS Resume Variants Showcase -->
+    <div class="saas-card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h6 class="fw-bold mb-0 text-heading"><i class="bi bi-file-earmark-person-fill text-primary me-2"></i> Tailored ATS Resume Variants (DOCX & PDF)</h6>
+                <div class="small text-muted">Generated deterministically from verified resume facts under the Zero Fabrication Policy.</div>
+            </div>
+            <button class="btn btn-sm btn-saas-outline" onclick="generateResumes(this)">
+                <i class="bi bi-arrow-clockwise me-1"></i> Re-generate All
+            </button>
+        </div>
+
+        <div class="row g-3">
+            <!-- Variant A -->
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary">RESUME_A</span>
+                            <small class="text-muted fw-semibold">Full Stack Roles</small>
+                        </div>
+                        <h6 class="fw-bold mb-1">Python Full Stack Developer</h6>
+                        <p class="small text-muted mb-3">Highlights Python, Django MVT, SQL, JS ES6+, HTML5, CSS3, Stock Market Analysis & Food Delivery projects.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/resumes/Kiran_A_N_Resume_RESUME_A.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger w-50">
+                            <i class="bi bi-file-pdf me-1"></i> View PDF
+                        </a>
+                        <a href="/resumes/Kiran_A_N_Resume_RESUME_A.docx" download class="btn btn-sm btn-outline-primary w-50">
+                            <i class="bi bi-file-word me-1"></i> DOCX
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variant B -->
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-secondary">RESUME_B</span>
+                            <small class="text-muted fw-semibold">Backend Roles</small>
+                        </div>
+                        <h6 class="fw-bold mb-1">Python Backend Developer</h6>
+                        <p class="small text-muted mb-3">Emphasizes Core Python OOP, Django Backend, REST APIs, JSON serialization, and SQL database queries.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/resumes/Kiran_A_N_Resume_RESUME_B.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger w-50">
+                            <i class="bi bi-file-pdf me-1"></i> View PDF
+                        </a>
+                        <a href="/resumes/Kiran_A_N_Resume_RESUME_B.docx" download class="btn btn-sm btn-outline-primary w-50">
+                            <i class="bi bi-file-word me-1"></i> DOCX
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variant C -->
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-success">RESUME_C</span>
+                            <small class="text-muted fw-semibold">Database Roles</small>
+                        </div>
+                        <h6 class="fw-bold mb-1">SQL / Database Developer</h6>
+                        <p class="small text-muted mb-3">Focuses on SQL & Oracle SQL, relational joins, subqueries, GROUP BY aggregations, and Django ORM schema.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/resumes/Kiran_A_N_Resume_RESUME_C.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-danger w-50">
+                            <i class="bi bi-file-pdf me-1"></i> View PDF
+                        </a>
+                        <a href="/resumes/Kiran_A_N_Resume_RESUME_C.docx" download class="btn btn-sm btn-outline-primary w-50">
+                            <i class="bi bi-file-word me-1"></i> DOCX
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hybrid Job Viewer Section: Controls & Filters -->
+    <div class="saas-card p-4 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-3">
+            <div>
+                <h5 class="fw-bold mb-0 text-heading">Tracked Opportunities & Scoring Audit</h5>
+                <div class="small text-muted">Real-time status of all discovered openings, matching rubrics, and state transitions.</div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <!-- Live Production Mode vs Demo Sandbox Switcher -->
+                <div class="mode-switch-container">
+                    <button class="mode-switch-btn {% if demo_mode != 'true' %}active{% endif %}" onclick="switchDemoView('false')">
+                        <i class="bi bi-shield-check me-1 text-success"></i> Live Jobs (<span id="count-genuine">{{ kpis.genuine_jobs_count }}</span>)
+                    </button>
+                    <button class="mode-switch-btn {% if demo_mode == 'true' %}active{% endif %}" onclick="switchDemoView('true')">
+                        <i class="bi bi-cone-striped me-1 text-warning"></i> Demo Sandbox (<span id="count-demo">{{ kpis.demo_jobs_count }}</span>)
+                    </button>
+                </div>
+
+                <!-- Grid vs Table View Switcher -->
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" id="btn-view-cards" class="btn btn-outline-secondary active" onclick="setViewMode('cards')">
+                        <i class="bi bi-grid-fill me-1"></i> Cards
+                    </button>
+                    <button type="button" id="btn-view-table" class="btn btn-outline-secondary" onclick="setViewMode('table')">
+                        <i class="bi bi-table me-1"></i> Table
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="row g-2 mb-4 align-items-center">
+            <!-- Search Input -->
+            <div class="col-md-4">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" id="filter-search" class="form-control border-start-0" placeholder="Search title, company, skills..." oninput="applyFilters()">
+                </div>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="col-md-2">
+                <select id="filter-status" class="form-select form-select-sm" onchange="applyFilters()">
+                    <option value="">All Statuses</option>
+                    <option value="QUALIFIED">Qualified</option>
+                    <option value="AWAITING_MANUAL_ACTION">Awaiting Action</option>
+                    <option value="SUBMITTED">Submitted</option>
+                    <option value="REJECTED">Vetoed / Rejected</option>
+                </select>
+            </div>
+
+            <!-- Work Arrangement -->
+            <div class="col-md-2">
+                <select id="filter-work" class="form-select form-select-sm" onchange="applyFilters()">
+                    <option value="">All Arrangements</option>
+                    <option value="Remote">Remote / WFH</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="On-site">On-site</option>
+                </select>
+            </div>
+
+            <!-- Verification Status -->
+            <div class="col-md-2">
+                <select id="filter-verif" class="form-select form-select-sm" onchange="applyFilters()">
+                    <option value="">All Link Statuses</option>
+                    <option value="VERIFIED_ACTIVE">Verified Active</option>
+                    <option value="SOURCE_CONFIRMED">Source Confirmed</option>
+                    <option value="DEMO_ONLY">Demo Only</option>
+                    <option value="EXPIRED">Expired</option>
+                </select>
+            </div>
+
+            <!-- Min Score Pill Buttons -->
+            <div class="col-md-2 d-flex gap-1 justify-content-end">
+                <button type="button" class="btn btn-sm btn-outline-primary px-2" onclick="setScoreFilter(85)">≥85</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary px-2" onclick="setScoreFilter(75)">≥75</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary px-2" onclick="setScoreFilter(0)">All</button>
+            </div>
+        </div>
+
+        <!-- 1. Rich Cards View (Default) -->
+        <div id="cards-view-container" class="row g-3">
+            {% for app in applications %}
+            <div class="col-md-6 col-lg-4 job-item"
+                 data-title="{{ app.job_title|lower }}"
+                 data-employer="{{ app.employer|lower }}"
+                 data-status="{{ app.application_status }}"
+                 data-work="{{ app.work_arrangement }}"
+                 data-verif="{{ app.verification_status or 'SOURCE_CONFIRMED' }}"
+                 data-score="{{ app.matching_score }}">
+                <div class="saas-card card-hover-lift p-3 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <!-- Header: Avatar, Company, Title, Score -->
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="company-avatar">
+                                    {{ app.employer[:1]|upper }}
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-heading text-truncate" style="max-width: 180px;" title="{{ app.job_title }}">{{ app.job_title }}</h6>
+                                    <div class="small text-muted">{{ app.employer }}</div>
+                                </div>
+                            </div>
+                            <!-- Score Pill -->
+                            <div class="score-badge {% if app.matching_score >= 85 %}score-high{% elif app.matching_score >= 75 %}score-med{% else %}score-low{% endif %}">
+                                <span>{{ app.matching_score }}</span><span class="small text-muted">/100</span>
+                            </div>
+                        </div>
+
+                        <!-- Location & Salary Badges -->
+                        <div class="d-flex flex-wrap align-items-center gap-1 mb-2 font-mono small">
+                            <span class="badge bg-light text-dark border"><i class="bi bi-geo-alt me-1"></i>{{ app.location.split(',')[0] }} ({{ app.work_arrangement }})</span>
+                            <span class="badge bg-light text-dark border"><i class="bi bi-currency-rupee me-1"></i>{{ app.salary_range or 'Market Standard (≥4.0 LPA)' }}</span>
+                        </div>
+
+                        <!-- Verification Status Badge -->
+                        <div class="mb-2">
+                            {% if app.verification_status == 'VERIFIED_ACTIVE' %}
+                            <span class="badge-verified-active"><i class="bi bi-patch-check-fill me-1"></i>Verified Active Link</span>
+                            {% elif app.verification_status == 'SOURCE_CONFIRMED' %}
+                            <span class="badge-source-confirmed"><i class="bi bi-shield-check me-1"></i>Source Confirmed</span>
+                            {% elif app.verification_status == 'DEMO_ONLY' or app.is_synthetic %}
+                            <span class="badge-demo-warning"><i class="bi bi-cone-striped me-1"></i>DEMO DATA — NOT REAL</span>
+                            {% elif app.verification_status == 'EXPIRED' %}
+                            <span class="badge-expired"><i class="bi bi-x-circle me-1"></i>Listing Expired</span>
+                            {% else %}
+                            <span class="badge bg-light text-secondary border font-mono">{{ app.verification_status or 'UNVERIFIED' }}</span>
+                            {% endif %}
+                            <span class="badge bg-light text-muted border ms-1 font-mono small">{{ app.source_platform }}</span>
+                        </div>
+
+                        <!-- Summary Excerpt -->
+                        <p class="small text-secondary mb-3 text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 38px;">
+                            {{ app.job_description_summary or 'Real technical opening aligned with verified Python Full Stack qualifications.' }}
+                        </p>
+
+                        <!-- Required Skills Chips -->
+                        <div class="d-flex flex-wrap gap-1 mb-3">
+                            {% for sk in app.get_required_skills()[:3] %}
+                            <span class="badge bg-light text-dark border small font-mono">{{ sk }}</span>
+                            {% endfor %}
+                            {% if app.get_required_skills()|length > 3 %}
+                            <span class="badge bg-light text-muted border small font-mono">+{{ app.get_required_skills()|length - 3 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Bottom Action Buttons: Working View Official Job, Inspect, Verify -->
+                    <div class="pt-2 border-top d-flex gap-2 align-items-center">
+                        <!-- Direct Link Button with rel="noopener noreferrer" -->
+                        <a href="{{ app.job_url }}" target="_blank" rel="noopener noreferrer"
+                           class="btn btn-saas-primary btn-sm flex-grow-1 text-center"
+                           title="Open official job advertisement"
+                           onclick="return handleJobLinkClick(event, '{{ app.job_url }}', {{ 'true' if app.is_synthetic else 'false' }})">
+                            <i class="bi bi-box-arrow-up-right me-1"></i> View Official Job
+                        </a>
+                        <button class="btn btn-saas-outline btn-sm" onclick="viewJobDetails('{{ app.id }}')" title="Inspect 100-pt rubric breakdown">
+                            <i class="bi bi-bar-chart-fill"></i>
+                        </button>
+                        <button class="btn btn-saas-outline btn-sm" onclick="verifyJobUrlLive('{{ app.id }}', this)" title="Test live link accessibility">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-5 text-muted">
+                <i class="bi bi-search fs-1 mb-2 d-block"></i>
+                <h6>No opportunities found matching current filters.</h6>
+                <p class="small">Click "Discover Real Public ATS" above to fetch live openings.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- 2. Compact Table View -->
+        <div id="table-view-container" class="table-responsive d-none">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Employer & Role</th>
+                        <th>Location & Type</th>
+                        <th>Salary Floor</th>
+                        <th>Link Provenance</th>
+                        <th>Score</th>
+                        <th>Workflow Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="jobs-table-body">
+                    {% for app in applications %}
+                    <tr class="job-item-table"
+                        data-title="{{ app.job_title|lower }}"
+                        data-employer="{{ app.employer|lower }}"
+                        data-status="{{ app.application_status }}"
+                        data-work="{{ app.work_arrangement }}"
+                        data-verif="{{ app.verification_status or 'SOURCE_CONFIRMED' }}"
+                        data-score="{{ app.matching_score }}">
+                        <td>
+                            <div class="fw-bold text-heading">{{ app.job_title }}</div>
+                            <small class="text-muted">{{ app.employer }} &bull; <span class="font-mono">{{ app.source_platform }}</span></small>
+                        </td>
+                        <td>
+                            <div>{{ app.employment_type }}</div>
+                            <small class="text-secondary">{{ app.location.split(',')[0] }} ({{ app.work_arrangement }})</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border font-mono">{{ app.salary_range or '≥4.0 LPA' }}</span>
+                        </td>
+                        <td>
+                            {% if app.verification_status == 'VERIFIED_ACTIVE' %}
+                            <span class="badge-verified-active"><i class="bi bi-patch-check-fill me-1"></i>Active</span>
+                            {% elif app.verification_status == 'SOURCE_CONFIRMED' %}
+                            <span class="badge-source-confirmed">Confirmed</span>
+                            {% elif app.verification_status == 'DEMO_ONLY' or app.is_synthetic %}
+                            <span class="badge-demo-warning">DEMO</span>
+                            {% else %}
+                            <span class="badge bg-light text-muted border font-mono small">{{ app.verification_status or 'UNVERIFIED' }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="score-badge {% if app.matching_score >= 85 %}score-high{% elif app.matching_score >= 75 %}score-med{% else %}score-low{% endif %}">
+                                {{ app.matching_score }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge {% if app.application_status in ['SUBMITTED', 'APPLICATION_CONFIRMED'] %}bg-success{% elif app.application_status == 'AWAITING_MANUAL_ACTION' %}bg-warning text-dark{% elif app.application_status == 'REJECTED' %}bg-danger{% else %}bg-primary{% endif %}">
+                                {{ app.application_status }}
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a href="{{ app.job_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-saas-primary" title="Open Job Link" onclick="return handleJobLinkClick(event, '{{ app.job_url }}', {{ 'true' if app.is_synthetic else 'false' }})">
+                                    <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                                <button class="btn btn-saas-outline" onclick="viewJobDetails('{{ app.id }}')" title="Inspect Rubric">
+                                    <i class="bi bi-bar-chart-fill"></i>
+                                </button>
+                                <button class="btn btn-saas-outline" onclick="verifyJobUrlLive('{{ app.id }}', this)" title="Test Link">
+                                    <i class="bi bi-arrow-repeat"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<!-- Job Inspection & Rubric Breakdown Modal -->
+<div class="modal fade" id="jobModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+            <div class="modal-header bg-light py-3 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-primary text-white p-2 rounded-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <h5 class="modal-title fw-bold text-heading mb-0" id="modal-job-title">Job Matching Analysis</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <h5 class="fw-bold text-heading mb-0" id="modal-employer">Company</h5>
+                            <span id="modal-verif-badge" class="badge-verified-active">Verified</span>
+                        </div>
+                        <div class="text-secondary small mb-2" id="modal-location">Location</div>
+                        <div class="p-3 bg-light rounded-3 border small" id="modal-summary">Summary text...</div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="p-3 border rounded-3 bg-white shadow-sm h-100 d-flex flex-column justify-content-center">
+                            <small class="text-muted fw-bold text-uppercase">Matching Score</small>
+                            <h1 class="fw-bold text-primary mb-1 mt-1" id="modal-score">--/100</h1>
+                            <div><span class="badge bg-primary" id="modal-status">STATUS</span></div>
+                            <small class="text-muted mt-2 font-mono" id="modal-salary">Salary: --</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold text-heading mb-2"><i class="bi bi-list-check text-primary me-1"></i> 100-Point Deterministic Rubric Breakdown</h6>
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                    <div id="modal-breakdown-list"></div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-success small mb-2"><i class="bi bi-check2-circle me-1"></i> Verified Matched Skills</h6>
+                        <div id="modal-matched-skills" class="d-flex flex-wrap gap-1"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-danger small mb-2"><i class="bi bi-exclamation-circle me-1"></i> Missing Skills / Tech Gaps</h6>
+                        <div id="modal-missing-skills" class="d-flex flex-wrap gap-1"></div>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold text-heading mb-2"><i class="bi bi-clock-history text-secondary me-1"></i> Audit History Trail</h6>
+                <ul class="list-group list-group-flush border rounded-3 small" id="modal-history"></ul>
+            </div>
+            <div class="modal-footer bg-light py-2 px-4 border-top">
+                <a id="modal-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-saas-primary btn-sm">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Open Application Page
+                </a>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Preferences & Profile Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+            <div class="modal-header bg-light py-3 border-bottom">
+                <h5 class="modal-title fw-bold text-heading">Candidate Preferences & Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="candidate-form">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Full Name</label>
+                        <input type="text" class="form-control form-control-sm" value="{{ profile.full_name }}" disabled>
+                        <div class="form-text">Locked under Zero Fabrication Policy.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Professional Email Address</label>
+                        <input type="email" id="input-email" class="form-control form-control-sm" placeholder="kiran.an@example.com" value="{{ profile.contact.email or '' }}">
+                        <div class="form-text">Used for ATS contact forms strictly under your authorization.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Mobile / Phone Number</label>
+                        <input type="tel" id="input-phone" class="form-control form-control-sm" placeholder="6361473807" value="{{ profile.contact.phone or '6361473807' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Strict Target Locations</label>
+                        <input type="text" class="form-control form-control-sm" value="Bengaluru, Mysuru, Remote (WFH)" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Minimum Salary Floor</label>
+                        <input type="text" class="form-control form-control-sm" value="₹4.0 LPA (Any Maximum Allowed)" disabled>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light py-2 px-4 border-top">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-saas-primary btn-sm" onclick="saveCandidateContact()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Dashboard Control & Filtering Logic -->
+<script>
+    let activeScoreFilter = 0;
+
+    function showLiveAlert(msg, isSuccess = true) {
+        const alertBox = document.getElementById('live-alert');
+        const alertText = document.getElementById('live-alert-text');
+        alertText.innerText = msg;
+        alertBox.className = `alert ${isSuccess ? 'alert-success' : 'alert-danger'} py-2 px-3 small mb-4 fade-in`;
+        alertBox.classList.remove('d-none');
+        setTimeout(() => alertBox.classList.add('d-none'), 7000);
+    }
+
+    function handleJobLinkClick(event, url, isSynthetic) {
+        if (isSynthetic || !url || url === '#' || url.includes('mock.jobs') || url.includes('fintechinnovations')) {
+            event.preventDefault();
+            showLiveAlert('This is a DEMO benchmark fixture. It has no live external employer vacancy.', false);
+            return false;
+        }
+        return true;
+    }
+
+    function switchDemoView(isDemo) {
+        window.location.href = `/?demo=${isDemo}`;
+    }
+
+    function setViewMode(mode) {
+        const cardsCont = document.getElementById('cards-view-container');
+        const tableCont = document.getElementById('table-view-container');
+        const btnCards = document.getElementById('btn-view-cards');
+        const btnTable = document.getElementById('btn-view-table');
+
+        if (mode === 'table') {
+            cardsCont.classList.add('d-none');
+            tableCont.classList.remove('d-none');
+            btnCards.classList.remove('active');
+            btnTable.classList.add('active');
+            localStorage.setItem('job_view_mode', 'table');
+        } else {
+            tableCont.classList.add('d-none');
+            cardsCont.classList.remove('d-none');
+            btnTable.classList.remove('active');
+            btnCards.classList.add('active');
+            localStorage.setItem('job_view_mode', 'cards');
+        }
+    }
+
+    function setScoreFilter(score) {
+        activeScoreFilter = score;
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const searchVal = document.getElementById('filter-search').value.toLowerCase().trim();
+        const statusVal = document.getElementById('filter-status').value;
+        const workVal = document.getElementById('filter-work').value;
+        const verifVal = document.getElementById('filter-verif').value;
+
+        // Filter Grid Cards
+        const cards = document.querySelectorAll('.job-item');
+        cards.forEach(card => {
+            const title = card.getAttribute('data-title') || '';
+            const employer = card.getAttribute('data-employer') || '';
+            const status = card.getAttribute('data-status') || '';
+            const work = card.getAttribute('data-work') || '';
+            const verif = card.getAttribute('data-verif') || '';
+            const score = parseInt(card.getAttribute('data-score') || '0', 10);
+
+            const matchSearch = !searchVal || title.includes(searchVal) || employer.includes(searchVal);
+            const matchStatus = !statusVal || status === statusVal;
+            const matchWork = !workVal || work.toLowerCase().includes(workVal.toLowerCase());
+            const matchVerif = !verifVal || verif === verifVal;
+            const matchScore = score >= activeScoreFilter;
+
+            card.style.display = (matchSearch && matchStatus && matchWork && matchVerif && matchScore) ? '' : 'none';
+        });
+
+        // Filter Table Rows
+        const rows = document.querySelectorAll('.job-item-table');
+        rows.forEach(row => {
+            const title = row.getAttribute('data-title') || '';
+            const employer = row.getAttribute('data-employer') || '';
+            const status = row.getAttribute('data-status') || '';
+            const work = row.getAttribute('data-work') || '';
+            const verif = row.getAttribute('data-verif') || '';
+            const score = parseInt(row.getAttribute('data-score') || '0', 10);
+
+            const matchSearch = !searchVal || title.includes(searchVal) || employer.includes(searchVal);
+            const matchStatus = !statusVal || status === statusVal;
+            const matchWork = !workVal || work.toLowerCase().includes(workVal.toLowerCase());
+            const matchVerif = !verifVal || verif === verifVal;
+            const matchScore = score >= activeScoreFilter;
+
+            row.style.display = (matchSearch && matchStatus && matchWork && matchVerif && matchScore) ? '' : 'none';
+        });
+    }
+
+    function updateKpiElements(kpis) {
+        if (!kpis) return;
+        if (document.getElementById('kpi-total')) document.getElementById('kpi-total').innerText = kpis.total_applications;
+        if (document.getElementById('kpi-high')) document.getElementById('kpi-high').innerText = kpis.high_priority_matches;
+        if (document.getElementById('kpi-sub')) document.getElementById('kpi-sub').innerText = kpis.submitted_today;
+        if (document.getElementById('kpi-ft')) document.getElementById('kpi-ft').innerText = kpis.full_time_count;
+        if (document.getElementById('kpi-int')) document.getElementById('kpi-int').innerText = kpis.internship_count;
+        if (document.getElementById('kpi-verified')) document.getElementById('kpi-verified').innerText = kpis.verified_active_urls;
+    }
+
+    function triggerDiscovery(isLive, btnElement) {
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Discovering...`;
+        }
+        showLiveAlert(`Executing ${isLive ? 'Live Public ATS' : 'Synthetic & Fixture'} Discovery cycle... Please wait.`);
+
+        fetch('/api/run_discovery', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({live: isLive, demo: !isLive})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            if (data.status === 'success') {
+                showLiveAlert(`Discovery Complete! Processed: ${data.total_processed}, Qualified: ${data.qualified}, Vetoed: ${data.vetoed_or_rejected}`);
+                if (data.kpis) updateKpiElements(data.kpis);
+                setTimeout(() => location.reload(), 1200);
+            } else {
+                showLiveAlert(data.message, false);
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert('Discovery error: ' + err, false);
+        });
+    }
+
+    function generateResumes(btnElement) {
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Generating...`;
+        }
+        showLiveAlert('Generating Tailored ATS Resumes for Variants A, B, and C in DOCX & PDF...');
+
+        fetch('/api/generate_resumes', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(data.message, true);
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert('Resume generation failed: ' + err, false);
+        });
+    }
+
+    function testTelegram() {
+        showLiveAlert('Testing Telegram Bot communication...');
+        fetch('/api/test_telegram', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            showLiveAlert(data.message, data.is_configured);
+        })
+        .catch(err => showLiveAlert('Telegram ping failed: ' + err, false));
+    }
+
+    function toggleEmergencyStop() {
+        const btn = document.getElementById('btn-emergency');
+        const label = document.getElementById('emergency-label');
+        btn.disabled = true;
+
+        fetch('/api/emergency_stop', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({})
+        })
+        .then(res => res.json())
+        .then(data => {
+            btn.disabled = false;
+            const isHalted = data.emergency_stop;
+            if (isHalted) {
+                btn.className = 'btn btn-sm btn-warning text-dark fw-bold px-3 py-1.5 rounded-2 shadow-sm';
+                btn.innerHTML = '<i class="bi bi-play-circle-fill me-1"></i><span id="emergency-label">Resume Agent</span>';
+                showLiveAlert('Emergency Stop Triggered. All active and scheduled runs paused.', false);
+            } else {
+                btn.className = 'btn btn-sm btn-danger fw-bold px-3 py-1.5 rounded-2 shadow-sm';
+                btn.innerHTML = '<i class="bi bi-pause-circle-fill me-1"></i><span id="emergency-label">Emergency Stop</span>';
+                showLiveAlert('Agent Operation Resumed. All safety systems active.', true);
+            }
+        })
+        .catch(err => {
+            btn.disabled = false;
+            showLiveAlert('Error toggling Emergency Stop: ' + err, false);
+        });
+    }
+
+    function switchMode(newMode) {
+        const modeLabel = document.getElementById('current-mode-label');
+        fetch('/api/set_mode', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({mode: newMode})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                modeLabel.innerText = newMode;
+                showLiveAlert(`Operational mode transitioned to ${newMode}`, true);
+            } else {
+                showLiveAlert(data.message || 'Mode switch failed', false);
+            }
+        })
+        .catch(err => showLiveAlert('Failed to update mode: ' + err, false));
+    }
+
+    function viewJobDetails(jobId) {
+        fetch(`/api/job_details/${jobId}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('modal-job-title').innerText = data.job_title;
+            document.getElementById('modal-employer').innerText = data.employer;
+            document.getElementById('modal-location').innerText = `${data.location} (${data.work_arrangement})`;
+            document.getElementById('modal-summary').innerText = data.summary || 'Real technical opening aligned with verified candidate qualifications.';
+            document.getElementById('modal-score').innerText = `${data.matching_score}/100`;
+            document.getElementById('modal-status').innerText = data.application_status;
+            document.getElementById('modal-salary').innerText = `Salary: ${data.salary_range}`;
+            document.getElementById('modal-direct-link').href = data.job_url;
+
+            // Verification Badge
+            const vBadge = document.getElementById('modal-verif-badge');
+            if (data.verification_status === 'VERIFIED_ACTIVE') {
+                vBadge.className = 'badge-verified-active';
+                vBadge.innerHTML = '<i class="bi bi-patch-check-fill me-1"></i>Verified Active Link';
+            } else if (data.verification_status === 'SOURCE_CONFIRMED') {
+                vBadge.className = 'badge-source-confirmed';
+                vBadge.innerHTML = '<i class="bi bi-shield-check me-1"></i>Source Confirmed';
+            } else if (data.verification_status === 'DEMO_ONLY' || data.is_synthetic) {
+                vBadge.className = 'badge-demo-warning';
+                vBadge.innerHTML = '<i class="bi bi-cone-striped me-1"></i>DEMO DATA';
+            } else {
+                vBadge.className = 'badge bg-light text-dark border';
+                vBadge.innerText = data.verification_status || 'UNVERIFIED';
+            }
+
+            // Breakdown
+            const bdList = document.getElementById('modal-breakdown-list');
+            bdList.innerHTML = '';
+            const exp = data.matching_explanation || {};
+            const explanations = exp.breakdown_explanations || [];
+            if (explanations.length > 0) {
+                explanations.forEach(item => {
+                    const d = document.createElement('div');
+                    d.className = 'mb-1 text-secondary';
+                    d.innerHTML = `<i class="bi bi-arrow-right-short text-primary"></i> ${item}`;
+                    bdList.appendChild(d);
+                });
+            } else {
+                bdList.innerHTML = '<em>Score calculated via 6-dimension deterministic rubric.</em>';
+            }
+
+            // Skills
+            const matchedCont = document.getElementById('modal-matched-skills');
+            matchedCont.innerHTML = '';
+            (data.required_skills || ['Python', 'SQL', 'Django']).forEach(s => {
+                const sp = document.createElement('span');
+                sp.className = 'badge bg-success-subtle text-success border border-success-subtle font-mono';
+                sp.innerText = s;
+                matchedCont.appendChild(sp);
+            });
+
+            const missingCont = document.getElementById('modal-missing-skills');
+            missingCont.innerHTML = '';
+            const gaps = data.missing_skills || [];
+            if (gaps.length > 0) {
+                gaps.forEach(s => {
+                    const sp = document.createElement('span');
+                    sp.className = 'badge bg-danger-subtle text-danger border border-danger-subtle font-mono';
+                    sp.innerText = s;
+                    missingCont.appendChild(sp);
+                });
+            } else {
+                missingCont.innerHTML = '<span class="text-muted small">None — Full candidate alignment</span>';
+            }
+
+            // History
+            const histList = document.getElementById('modal-history');
+            histList.innerHTML = '';
+            (data.history || []).forEach(h => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center py-2';
+                li.innerHTML = `<span><strong>${h.from} &rarr; ${h.to}</strong>: ${h.reason}</span><small class="text-muted font-mono">${h.at.split('T')[0]}</small>`;
+                histList.appendChild(li);
+            });
+
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('jobModal')).show();
+        })
+        .catch(err => showLiveAlert('Failed to load job details: ' + err, false));
+    }
+
+    function verifyJobUrlLive(jobId, btnElement) {
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        }
+        showLiveAlert(`Probing live HTTP accessibility for job ID ${jobId}...`);
+
+        fetch(`/api/applications/${jobId}/verify_url`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            if (data.status === 'success') {
+                showLiveAlert(`Probe Succeeded: ${data.verification_status} — ${data.verification_reason}`, true);
+                const card = document.querySelector(`.job-item button[onclick*="${jobId}"]`)?.closest('.job-item');
+                if (card) {
+                    card.setAttribute('data-verif', data.verification_status);
+                    const badgeEl = card.querySelector('.badge-verified-active, .badge-source-confirmed, .badge-demo-warning, .badge-expired');
+                    if (badgeEl) {
+                        if (data.verification_status === 'VERIFIED_ACTIVE') {
+                            badgeEl.className = 'badge-verified-active';
+                            badgeEl.innerHTML = '<i class="bi bi-patch-check-fill me-1"></i>Verified Active Link';
+                        } else if (data.verification_status === 'SOURCE_CONFIRMED') {
+                            badgeEl.className = 'badge-source-confirmed';
+                            badgeEl.innerHTML = '<i class="bi bi-shield-check me-1"></i>Source Confirmed';
+                        }
+                    }
+                }
+            } else {
+                showLiveAlert(data.message, false);
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert('Probe error: ' + err, false);
+        });
+    }
+
+    function saveCandidateContact() {
+        const email = document.getElementById('input-email').value.trim();
+        const phone = document.getElementById('input-phone').value.trim();
+        const btn = document.querySelector('#profileModal button.btn-saas-primary');
+        if (btn) btn.disabled = true;
+
+        fetch('/api/update_candidate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email: email, phone: phone})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btn) btn.disabled = false;
+            const modalEl = document.getElementById('profileModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+            if (modalInstance) modalInstance.hide();
+            showLiveAlert(data.message, true);
+
+            if (phone) {
+                ['naukri', 'internshala', 'linkedin'].forEach(p => {
+                    const inp = document.getElementById(`input-phone-${p}`);
+                    if (inp) inp.value = phone;
+                });
+            }
+        })
+        .catch(err => {
+            if (btn) btn.disabled = false;
+            showLiveAlert('Failed to update profile: ' + err, false);
+        });
+    }
+
+    function sendPortalOtp(portal, btnElement) {
+        const phoneInput = document.getElementById(`input-phone-${portal}`);
+        let phone = phoneInput ? phoneInput.value.trim() : '';
+        if (!phone) {
+            phone = "6361473807";
+            if (phoneInput) phoneInput.value = phone;
+        }
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        }
+        showLiveAlert(`Dispatching OTP to ${phone} on ${portal.toUpperCase()}... Please wait.`);
+
+        fetch('/api/portals/send_otp', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({portal: portal, phone: phone})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(data.message, data.status !== 'error');
+            if (data.status === 'PENDING_OTP') {
+                const badge = document.getElementById(`badge-${portal}`);
+                if (badge) {
+                    badge.className = 'badge bg-warning text-dark';
+                    badge.innerText = 'AWAITING OTP';
+                }
+                const otpInput = document.getElementById(`input-otp-${portal}`);
+                if (otpInput) otpInput.focus();
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(`Failed to send OTP on ${portal}: ${err}`, false);
+        });
+    }
+
+    function verifyPortalOtp(portal, btnElement) {
+        const otpInput = document.getElementById(`input-otp-${portal}`);
+        const otp = otpInput ? otpInput.value.trim() : '';
+        if (!otp) {
+            showLiveAlert('Please enter the OTP received on your mobile phone.', false);
+            if (otpInput) otpInput.focus();
+            return;
+        }
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        }
+        showLiveAlert(`Verifying OTP on ${portal.toUpperCase()} and caching session...`);
+
+        fetch('/api/portals/verify_otp', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({portal: portal, otp: otp})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            const isAuth = data.status === 'AUTHENTICATED';
+            showLiveAlert(data.message, isAuth);
+            if (isAuth) {
+                const badge = document.getElementById(`badge-${portal}`);
+                if (badge) {
+                    badge.className = 'badge bg-success';
+                    badge.innerText = 'CONNECTED';
+                }
+                const phoneLabel = document.getElementById(`label-phone-${portal}`);
+                if (phoneLabel && data.masked_phone) {
+                    phoneLabel.innerText = data.masked_phone;
+                }
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(`Verification error: ${err}`, false);
+        });
+    }
+
+    function disconnectPortal(portal, btnElement) {
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        }
+
+        fetch('/api/portals/disconnect', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({portal: portal})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(data.message, true);
+            const badge = document.getElementById(`badge-${portal}`);
+            if (badge) {
+                badge.className = 'badge bg-secondary';
+                badge.innerText = 'DISCONNECTED';
+            }
+            const phoneLabel = document.getElementById(`label-phone-${portal}`);
+            if (phoneLabel) {
+                phoneLabel.innerText = 'Not configured';
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(`Error disconnecting ${portal}: ${err}`, false);
+        });
+    }
+
+    function syncPortalJobs(portal, btnElement) {
+        const targetDesc = portal === 'all' ? 'All Portals' : portal.toUpperCase();
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Syncing...`;
+        }
+        showLiveAlert(`Executing live genuine job sync on ${targetDesc}... Applying min 4 LPA & Bangalore/Mysore/WFH filters.`);
+
+        fetch('/api/portals/sync', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({portal: portal})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            if (data.status === 'success') {
+                showLiveAlert(`Sync Complete! Total scraped: ${data.total_scraped}, Qualified (≥4 LPA, target location): ${data.qualified}, Vetoed: ${data.vetoed}`);
+                if (data.kpis) updateKpiElements(data.kpis);
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                showLiveAlert(data.message, false);
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(`Sync error: ${err}`, false);
+        });
+    }
+
+    function refreshPortalStatuses(btnElement) {
+        const originalHtml = btnElement ? btnElement.innerHTML : '';
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`;
+        }
+        fetch('/api/portals/status')
+        .then(res => res.json())
+        .then(data => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            if (data.status === 'success') {
+                showLiveAlert('Portal connection statuses refreshed.', true);
+                if (data.portals) {
+                    ['naukri', 'internshala', 'linkedin'].forEach(p => {
+                        const pInfo = data.portals[p];
+                        if (pInfo) {
+                            const badge = document.getElementById(`badge-${p}`);
+                            if (badge) {
+                                if (pInfo.status === 'AUTHENTICATED') {
+                                    badge.className = 'badge bg-success';
+                                    badge.innerText = 'CONNECTED';
+                                } else if (pInfo.status === 'PENDING_OTP') {
+                                    badge.className = 'badge bg-warning text-dark';
+                                    badge.innerText = 'AWAITING OTP';
+                                } else {
+                                    badge.className = 'badge bg-secondary';
+                                    badge.innerText = 'DISCONNECTED';
+                                }
+                            }
+                            const phoneLabel = document.getElementById(`label-phone-${p}`);
+                            if (phoneLabel && pInfo.masked_phone) {
+                                phoneLabel.innerText = pInfo.masked_phone;
+                            }
+                        }
+                    });
+                }
+            }
+        })
+        .catch(err => {
+            if (btnElement) {
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+            showLiveAlert(`Failed to refresh statuses: ${err}`, false);
+        });
+    }
+
+    // Initialize persisted view mode
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedView = localStorage.getItem('job_view_mode') || 'cards';
+        setViewMode(savedView);
+    });
+</script>
+</body>
+</html>

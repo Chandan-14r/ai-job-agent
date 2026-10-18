@@ -1,0 +1,68 @@
+# Job Search & Agent Preferences Configuration
+# Updated according to candidate direct input (October 2026)
+
+system:
+  mode: "DISCOVERY_MODE" # Options: DISCOVERY_MODE, ASSISTED_APPLICATION_MODE, AUTHORIZED_AUTO_APPLY_MODE
+  pre_activation_approved: false
+  emergency_stop: false
+  dry_run: false
+
+location_preferences:
+  primary_city: "Bengaluru"
+  secondary_city: "Mysuru"
+  allowed_locations:
+    - "Bengaluru, Karnataka, India"
+    - "Mysuru, Karnataka, India"
+    - "Bangalore"
+    - "Mysore"
+  remote_eligible: true
+  remote_scope: "Work From Home / Remote (India-eligible)"
+  secondary_cities_enabled: true
+  work_arrangements:
+    - "On-site"
+    - "Hybrid"
+    - "Remote"
+    - "Work From Home"
+
+experience_preferences:
+  min_experience_years: 0
+  max_experience_years: 2.0
+  target_tiers:
+    - "Fresher"
+    - "Graduate"
+    - "Entry-Level"
+    - "Junior"
+    - "Associate"
+    - "Trainee"
+
+salary_preferences:
+  minimum_salary_lpa: 4.0
+  minimum_salary_inr_per_annum: 400000 # 4 LPA Minimum
+  maximum_salary_lpa: null # Any LPA acceptable
+
+application_limits:
+  max_applications_per_day: 10
+  cooldown_days_per_employer: 60
+  http_backoff_factor: 2.0
+  max_http_retries: 3
+  request_delay_seconds: 2.5
+
+scoring_thresholds:
+  high_priority_min: 85
+  good_match_min: 75
+  review_queue_min: 60
+  auto_reject_below: 60
+
+conservative_holds:
+  allow_unpaid_internships: false
+  allow_service_bonds: false
+  allow_training_fees: false     # Immediately veto any pay-to-work or fee-charging openings
+  allow_relocation_required: false # Strictly Bangalore, Mysore, or Remote
+  allow_contract_roles: false
+
+employment_types:
+  mode: "BOTH_SEPARATED" # Options: FULL_TIME_ONLY, BOTH_SEPARATED, INTERNSHIPS_ONLY
+  track_internships_separately: true
+
+email_monitoring:
+  enabled: false

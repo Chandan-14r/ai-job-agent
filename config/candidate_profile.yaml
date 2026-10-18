@@ -1,0 +1,172 @@
+# Candidate Profile Configuration for Kiran A N
+# Source of truth: Reconciled against official resume (October 2026)
+# Zero Fabrication Policy strictly enforced.
+
+candidate:
+  full_name: "Kiran A N"
+  contact:
+    email: null          # Note: Omitted on uploaded resume sheet - can be set via dashboard or .env
+    phone: null          # Note: Omitted on uploaded resume sheet - provided by candidate via portal connection or .env
+    current_location: "Bengaluru, Karnataka, India"
+    target_locations:
+      - "Bengaluru, Karnataka, India"
+      - "Mysuru, Karnataka, India"
+      - "Remote / Work From Home (India)"
+    postal_code: null
+  links:
+    github: "https://github.com/kiranan2004-lgtm"
+    linkedin: "https://www.linkedin.com/in/kiran-an-6a365137"
+    portfolio: "https://kiran2004portfolio.netlify.app"
+
+summary:
+  headline: "Python Full Stack Developer"
+  tier: "Fresher / Early-Career Developer (0-2 Years)"
+  bio: "Entry-level Python Full Stack Developer with hands-on experience in Python application development, Django backend development, SQL database communication, and REST API fundamentals. Strong foundation in structured and object-oriented programming, data handling, and exception handling, backed by solid web development skills in HTML, CSS, and JavaScript. Eager to apply Python skills to real industrial engineering applications, including data processing, API integration, and supporting engineering tools."
+
+education:
+  - degree: "B.E. in Computer Science & Engineering"
+    institution: "JSS Academy of Technical Education, Bengaluru"
+    cgpa: 7.98
+    graduation_year: null # In training / Fresher
+    status: "Completed / Graduated"
+
+  - degree: "12th (Pre-University)"
+    institution: "Aishwarya Public College, Maddur"
+    percentage: "89%"
+    status: "Completed"
+
+  - degree: "10th (SSLC)"
+    institution: "Bethel International Public School, Ramanagara"
+    percentage: "90%"
+    status: "Completed"
+
+training:
+  - title: "Python Full Stack Development Training"
+    institute: "QSpiders"
+    location: "Basavanagudi, Bengaluru, Karnataka, India"
+    duration: "2026 – Present"
+    status: "Active"
+    modules:
+      - "Learned and practiced Python programming: structured programming, OOP, exception handling, file handling, collections, modules and packages, and data handling."
+      - "Learned Django backend development: MVT architecture, URLs, views, templates, models, forms, authentication, static files, and backend integration with databases."
+      - "Learned SQL and database concepts including CRUD operations, joins, subqueries, grouping, filtering, and aggregate queries."
+      - "Learned Web Development using HTML and CSS, including semantic elements, forms, tables, Flexbox, Grid, media queries, and responsive layouts."
+      - "Gained hands-on command of JavaScript: ES6+ features, functions, arrays and array methods, objects, DOM manipulation, BOM, event handling, form validation, JSON, timers, and promises."
+      - "Currently learning Selenium for web automation and testing."
+
+internships:
+  - organization: "Prinston Smart Engineer"
+    role_title: "Smart Engineer Intern"
+    start_date: "Verified on Resume"
+    end_date: "Completed"
+    responsibilities:
+      - "Completed a Smart Engineer internship and gained practical exposure to a professional technical/work environment."
+      - "Developed practical understanding through internship-based technical work and problem-solving."
+    verified_status: true # VERIFIED DIRECTLY FROM UPLOADED RESUME
+
+skills:
+  programming_languages:
+    - "Python"
+    - "JavaScript"
+    - "SQL"
+  python_core:
+    - "OOP"
+    - "Structured Programming"
+    - "Exception Handling"
+    - "File Handling"
+    - "Collections"
+    - "Modules & Packages"
+    - "Data Handling"
+  backend:
+    - "Django"
+    - "Django MVT"
+    - "URL Routing"
+    - "Views"
+    - "Templates"
+    - "Models (ORM)"
+    - "Forms"
+    - "Authentication"
+    - "Static Files"
+  api_development:
+    - "REST API Fundamentals"
+    - "API Integration"
+    - "JSON"
+    - "Fetch API"
+  databases:
+    - "SQL"
+    - "Oracle SQL"
+    - "CRUD Operations"
+    - "Relational Database Joins"
+    - "Subqueries"
+    - "GROUP BY & HAVING Clauses"
+    - "Aggregate Queries"
+  frontend:
+    - "HTML"
+    - "CSS"
+    - "Semantic HTML"
+    - "Forms and Tables"
+    - "Flexbox"
+    - "Grid"
+    - "Media Queries"
+    - "Responsive Design"
+    - "Transitions & Animations"
+  javascript:
+    - "ES6+"
+    - "Functions"
+    - "Arrow Functions"
+    - "Arrays & Array Methods"
+    - "Objects & Destructuring"
+    - "DOM & BOM Manipulation"
+    - "Events"
+    - "Form Validation"
+    - "Timers"
+    - "Callbacks & Promises"
+  developer_tools:
+    - "Git"
+    - "GitHub"
+    - "Visual Studio Code"
+  automation_testing:
+    - "Selenium WebDriver (Currently in progress at QSpiders)"
+
+core_strengths:
+  - "Problem Solving"
+  - "Logical Thinking"
+  - "Structured Programming"
+  - "Willingness to Learn"
+  - "Team Collaboration"
+
+exclusions_and_guardrails:
+  strictly_excluded_languages: ["Java", "C++", "Go", "Rust", "TypeScript"]
+  strictly_excluded_backend: ["FastAPI", "Flask", "Celery", "Microservices"]
+  strictly_excluded_frontend: ["React", "Angular", "Vue"]
+  strictly_excluded_database: ["PL/SQL", "Stored Procedures", "Triggers", "Database Indexing Optimization", "NoSQL", "MongoDB"]
+  experience_ceiling_years: 2.0
+
+projects:
+  - id: "stock_market_analysis"
+    title: "Stock Market Analysis — Django Full Stack Project"
+    stack: ["Python", "Django", "SQL Database", "HTML", "CSS", "JavaScript"]
+    features:
+      - "Developed a Django full stack application for stock analysis using Python, Django, SQL database, HTML, CSS, and JavaScript."
+      - "Designed Django models and the database layer to store and retrieve company information and stock price data."
+      - "Implemented user authentication and stock-specific pages using Django URLs, views, templates, and forms."
+      - "Processed historical price data to build interactive charts with selectable ranges such as 1M and 1Y."
+      - "Added forecasting and news-related features, integrating backend logic with the frontend."
+      - "Applied object-oriented, modular, and structured coding practices across the Django application."
+    relevance:
+      full_stack: 10
+      backend: 10
+      database: 9
+
+  - id: "food_delivery_web_page"
+    title: "Food Delivery Web Page"
+    stack: ["HTML", "CSS", "JavaScript"]
+    features:
+      - "Built a responsive food-delivery webpage using semantic HTML, CSS Flexbox/Grid, media queries, positioning, and animations."
+      - "Used JavaScript extensively: DOM manipulation, event handling, functions, arrays and objects, and array methods to dynamically render and update page content."
+      - "Implemented interactive features such as cart updates and form validation with clean, reusable JavaScript logic."
+    relevance:
+      full_stack: 8
+      backend: 3
+      database: 2
+      frontend: 10

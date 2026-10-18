@@ -1,0 +1,120 @@
+# Job Sources Configuration & Permission Governance Matrix
+# Every platform is strictly classified by authorized discovery and application protocols.
+
+sources:
+  linkedin:
+    name: "LinkedIn Jobs"
+    base_url: "https://www.linkedin.com/jobs"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "MANUAL_ONLY" # LinkedIn strictly prohibits automated form submission
+    enabled: true
+    rate_limit_per_hour: 20
+    notes: "Requires Manual Action handoff for candidate submission. Respects LinkedIn User Agreement."
+
+  naukri:
+    name: "Naukri India"
+    base_url: "https://www.naukri.com"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "ASSISTED_BROWSER" # Candidate review / assisted completion
+    enabled: true
+    rate_limit_per_hour: 30
+    notes: "Requires valid session. Zero bypass of OTP or CAPTCHA."
+
+  indeed_india:
+    name: "Indeed India"
+    base_url: "https://in.indeed.com"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "ASSISTED_BROWSER"
+    enabled: true
+    rate_limit_per_hour: 25
+    notes: "Direct apply redirects to employer ATS in most tech roles."
+
+  foundit:
+    name: "Foundit India (Monster)"
+    base_url: "https://www.foundit.in"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "ASSISTED_BROWSER"
+    enabled: true
+    rate_limit_per_hour: 30
+    notes: "Indian tech recruitment portal."
+
+  internshala:
+    name: "Internshala"
+    base_url: "https://internshala.com"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "ASSISTED_BROWSER"
+    enabled: true
+    rate_limit_per_hour: 25
+    notes: "Primary source for verified software/python internships and graduate trainee roles."
+
+  wellfound:
+    name: "Wellfound (AngelList Talent)"
+    base_url: "https://wellfound.com/jobs"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "MANUAL_ONLY"
+    enabled: true
+    rate_limit_per_hour: 15
+    notes: "Startup full-stack and backend roles; requires candidate customized pitch."
+
+  cutshort:
+    name: "Cutshort"
+    base_url: "https://cutshort.io"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "MANUAL_ONLY"
+    enabled: true
+    rate_limit_per_hour: 20
+    notes: "Match-based tech network; direct candidate manual engagement required."
+
+  instahyre:
+    name: "Instahyre"
+    base_url: "https://www.instahyre.com"
+    discovery_mode: "ASSISTED_BROWSER"
+    apply_mode: "MANUAL_ONLY"
+    enabled: true
+    rate_limit_per_hour: 20
+    notes: "Curated Indian tech opportunities."
+
+  greenhouse_ats:
+    name: "Greenhouse ATS"
+    base_url: "https://boards-api.greenhouse.io"
+    discovery_mode: "API_FEED"
+    apply_mode: "AUTHORIZED_AUTO_APPLY" # Permitted when candidate has authorized mode 3 and all fields are verified
+    enabled: true
+    rate_limit_per_hour: 60
+    notes: "Official public ATS API feed and application endpoints."
+
+  lever_ats:
+    name: "Lever ATS"
+    base_url: "https://api.lever.co/v0/postings"
+    discovery_mode: "API_FEED"
+    apply_mode: "AUTHORIZED_AUTO_APPLY"
+    enabled: true
+    rate_limit_per_hour: 60
+    notes: "Direct employer Lever job boards."
+
+  workday_ats:
+    name: "Workday Career Portals"
+    base_url: "https://myworkdayjobs.com"
+    discovery_mode: "API_FEED"
+    apply_mode: "MANUAL_ONLY" # Workday requires dedicated user logins, complex multi-step wizards, and MFA
+    enabled: true
+    rate_limit_per_hour: 20
+    notes: "Enterprise career portals. Auto-apply prohibited due to login/MFA barriers."
+
+  ashby_ats:
+    name: "Ashby ATS"
+    base_url: "https://jobs.ashbyhq.com"
+    discovery_mode: "API_FEED"
+    apply_mode: "AUTHORIZED_AUTO_APPLY"
+    enabled: true
+    rate_limit_per_hour: 60
+    notes: "Clean public career pages."
+
+  direct_employer_career:
+    name: "Direct Company Career Portals"
+    base_url: "https://careers.*"
+    discovery_mode: "API_FEED"
+    apply_mode: "ASSISTED_BROWSER"
+    enabled: true
+    rate_limit_per_hour: 30
+    notes: "Highest-trust tier for deduplication priority."

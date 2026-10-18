@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+session_data/
+session_data/*
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+data/*.db
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Generated Resumes & Reports (candidate personal data)
+output/resumes/*.pdf
+output/resumes/*.docx
+output/cover_letters/*.txt
+output/cover_letters/*.docx
+output/reports/*.csv
+output/reports/*.json
+
+# Keep placeholder files in output
+!output/**/.gitkeep
+
+# IDEs & OS metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
