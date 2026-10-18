@@ -94,6 +94,8 @@ def test_telegram_idempotent_event_deduplication():
 
 def test_telegram_configure_and_mock_api(monkeypatch):
     """Verify in-memory configuration and API validation for Telegram."""
+    monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
+    monkeypatch.delenv("TELEGRAM_CHAT_ID", raising=False)
     notifier = TelegramNotifier()
     assert not notifier.is_configured
 

@@ -13,8 +13,10 @@ from resume_generator.builder_pdf import generate_pdf_resume
 from resume_generator.cover_letter import generate_cover_letter
 
 
-def test_profile_loading_and_missing_fields_detection():
+def test_profile_loading_and_missing_fields_detection(monkeypatch):
     """Verify profile loads accurately and flags unverified/missing fields (Verification Area 1 & 12)."""
+    monkeypatch.delenv("CANDIDATE_EMAIL", raising=False)
+    monkeypatch.delenv("CANDIDATE_PHONE", raising=False)
     profile = load_candidate_profile()
     assert profile.full_name == "Kiran A N"
     assert profile.contact.current_location == "Bengaluru, Karnataka, India"

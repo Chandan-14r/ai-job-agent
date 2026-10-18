@@ -86,6 +86,29 @@ class JobScorer:
                 f"Hard Veto: Role title '{job.title}' does not align with candidate's software developer profile."
             )
 
+        # Strict Seniority Veto for Early-Career Fresher Candidate (Kiran A N: 0-2 Years)
+        seniority_patterns = [
+            r"\bsenior\b", r"\bsr\.?\b", r"\bsr\s+", r"\blead\b", r"\bprincipal\b", r"\barchitect\b",
+            r"\bstaff\b", r"\bmanager\b", r"\bdirector\b", r"\bvp\b", r"\bhead\s+of\b",
+            r"\bexpert\b", r"\bspecialist\b", r"\bconsultant\b",
+            r"\b[3-9]\s*\+?\s*years?\b", r"\b[3-9]\s*(?:-|to)\s*\d+\s*years?\b",
+            r"\b5-12\b", r"\b3-8\b", r"\b4-8\b", r"\b5\+\b", r"\b3\+\b", r"\b4\+\b",
+        ]
+        for spat in seniority_patterns:
+            if re.search(spat, title_lower):
+                return self._build_veto_result(
+                    f"Hard Veto: Role title '{job.title}' mandates senior/lead experience, exceeding candidate's 2.0-year early-career ceiling."
+                )
+
+        # Experience Mention in Description Veto (> 2.0 years)
+        jd_lower = job.raw_text.lower()
+        senior_exp_match = re.search(r"\b([3-9]|\d{2})\s*\+?\s*(?:years?|yrs?)\s*(?:of\s*)?(?:experience|exp)\b", jd_lower)
+        if senior_exp_match:
+            exp_found = senior_exp_match.group(1)
+            return self._build_veto_result(
+                f"Hard Veto: Job description mandates {exp_found}+ years of experience, exceeding candidate's 0-2 year profile."
+            )
+
         # B. Experience Ceiling Veto (>2.0 years mandatory)
         if job.requires_experience_veto or job.min_experience_years > 2.0:
             return self._build_veto_result(
@@ -146,6 +169,11 @@ class JobScorer:
         if sal_max is None and job.salary_range:
             from job_parser.extractor import JobExtractor
             sal_min, sal_max, _ = JobExtractor.extract_salary(job.salary_range)
+
+        # Unpaid / Zero stipend veto
+        sal_str_lower = (job.salary_range or "").lower()
+        if "unpaid" in sal_str_lower or "no stipend" in sal_str_lower or "free internship" in sal_str_lower or (sal_max is not None and sal_max == 0.0):
+            return self._build_veto_result("Hard Veto: Unpaid or zero-compensation role rejected. Minimum salary floor is 4.0 LPA.")
 
         if sal_max is not None and sal_max < 4.0:
             return self._build_veto_result(

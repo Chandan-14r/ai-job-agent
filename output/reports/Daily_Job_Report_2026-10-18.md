@@ -5,7 +5,7 @@
 - **Total Opportunities Tracked:** 11
 - **Full-Time Permanent Roles:** 11
 - **Internships / Trainee Roles:** 0
-- **High-Priority Matches (≥85):** 2
+- **High-Priority Matches (≥85):** 5
 - **Applications Submitted Today:** 0 / 10
 - **Applications Awaiting Manual Action:** 0
 
@@ -14,13 +14,13 @@
 | Company | Job Title | Type | Location | Score | Status | Resume | Link |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Apex Analytics | Associate Software Engineer - Python | FULL_TIME | Bengaluru, Karnataka, India | **94/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://www.naukri.com/job-listings-apex-python-3322) |
+| GitLab | People Systems Engineer | FULL_TIME | Remote (India) | **87/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8861748002) |
+| Canonical | Junior Linux Kernel Engineer - Ubuntu | FULL_TIME | Remote (India) | **87/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/5370815) |
+| Canonical | Distributed Systems Engineer | FULL_TIME | Remote (India) | **87/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/4581200) |
 | GitLab | Backend Engineer (Python),AI Engineering: Agent Foundations | FULL_TIME | Bengaluru, Karnataka, India | **85/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8704363002) |
+| GitLab | Migration Engineer - GitLab Dedicated | FULL_TIME | Remote (India) | **83/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8710061002) |
+| Canonical | Graduate Software Engineer, Open Source and Linux, Canonical Ubuntu | FULL_TIME | Remote (India) | **80/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/8249005) |
 | GitLab | Intermediate Backend Engineer - Code Security | FULL_TIME | Remote (India) | **78/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8894531002) |
-| GitLab | Intermediate Security Engineer, Security Incident Response Team (SIRT) | FULL_TIME | Bengaluru, Karnataka, India | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8782306002) |
-| GitLab | Director, Analytics Engineering | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8883003002) |
-| GitLab | Backend Engineer (Ruby), AI Engineering: Agent Foundations | FULL_TIME | Bengaluru, Karnataka, India | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8620720002) |
-| Canonical | Cloud Field Engineering Manager | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/7410479) |
-| Canonical | Cloud Field Engineer | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/6132532) |
-| Canonical | Cloud Engineering Manager | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/4676649) |
-| Canonical | C, Golang Software Engineer working on dqlite, a Raft extension for SQLite | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/4124053) |
-| Canonical | Alliances Field Engineer | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/3433732) |
+| Canonical | Containerization & Virtualisation Engineer | FULL_TIME | Remote (India) | **77/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/5172247) |
+| GitLab | Senior AI Engineer | FULL_TIME | Remote (India) | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8565469002) |
+| Canonical | Distributed Systems Testing Software Engineer, Python / Go | FULL_TIME | Home Based - Americas, Home Based - EMEA | **0/100** | `REJECTED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/canonical/jobs/2969042) |

@@ -44,9 +44,24 @@ class GreenhouseConnector(BaseJobSource):
                 offices = rj.get("offices", [])
                 loc_str = ", ".join([o.get("name", "") for o in offices]) or "Bengaluru, Karnataka, India"
 
-                # Check if query matches title or content
+                # Strictly filter out senior management, infrastructure, and non-target stacks
+                t_lower = title.lower()
+                bad_title_terms = [
+                    "manager", "director", "lead", "principal", "architect", "head of",
+                    "vp", "golang", "ruby", "rust", "field engineer", "security incident",
+                    "sales", "operations", "designer", "support", "account", "finance"
+                ]
+                if any(bad in t_lower for bad in bad_title_terms):
+                    continue
+
+                # Ensure role is a relevant developer/software opening
+                is_dev_role = any(d in t_lower for d in ["developer", "engineer", "software", "backend", "python", "full stack"])
+                if not is_dev_role:
+                    continue
+
+                # Check if Python is explicitly relevant
                 q_lower = query.lower()
-                if q_lower in title.lower() or q_lower in content.lower():
+                if q_lower in t_lower or "python" in content.lower():
                     parsed = JobExtractor.parse_job(
                         title=title,
                         employer=self.board_token.capitalize(),
