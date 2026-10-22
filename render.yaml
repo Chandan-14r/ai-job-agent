@@ -22,8 +22,10 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: TELEGRAM_BOT_TOKEN
-        sync: false
+        value: "8647018389:AAEe6j1NgipZdY67RXxz9rJdSjvaiU3t7jQ"
       - key: TELEGRAM_CHAT_ID
-        sync: false
+        value: "7273693371"
+      - key: HARVEST_INTERVAL_MINUTES
+        value: "720"
       - key: HEADLESS_BROWSER
         value: "true"

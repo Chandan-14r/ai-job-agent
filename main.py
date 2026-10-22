@@ -187,7 +187,8 @@ def main():
 
         flask_app = create_app(repo=repo, current_mode=args.mode)
         try:
-            flask_app.run(host="127.0.0.1", port=args.port, debug=False)
+            # Bind to 0.0.0.0 so mobile phones on local WiFi/LAN can open the dashboard
+            flask_app.run(host="0.0.0.0", port=args.port, debug=False)
         finally:
             bg_scheduler.stop()
 

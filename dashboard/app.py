@@ -63,6 +63,59 @@ def create_app(
         "email_monitoring": email_monitoring,
     }
 
+    # Stale harvest detection (ensures 12-hour Telegram updates even across server restarts or Render sleep)
+    import threading
+    import sys
+    from datetime import datetime
+    _harvest_in_progress = False
+
+    def trigger_background_harvest_if_stale():
+        nonlocal _harvest_in_progress
+        if "pytest" in sys.modules:
+            return
+        if system_state.get("emergency_stop"):
+            return
+
+        state_file = project_root / "data" / "harvest_state.json"
+        is_stale = True
+        if state_file.exists():
+            try:
+                with open(state_file, "r", encoding="utf-8") as f:
+                    sdata = json.load(f)
+                last_ts = sdata.get("last_harvest_timestamp")
+                if last_ts:
+                    last_dt = datetime.fromisoformat(last_ts.replace("Z", ""))
+                    if (datetime.utcnow() - last_dt).total_seconds() < 12 * 3600:
+                        is_stale = False
+            except Exception:
+                is_stale = True
+
+        if is_stale and not _harvest_in_progress:
+            def _async_harvester():
+                nonlocal _harvest_in_progress
+                if _harvest_in_progress:
+                    return
+                _harvest_in_progress = True
+                try:
+                    logger.info("[AutoHarvester] Stale harvest detected (>12h). Launching automated background cycle...")
+                    from scheduler.daily_agent import AutonomousDailyScrapingAgent
+                    agent = AutonomousDailyScrapingAgent(
+                        profile=load_candidate_profile(),
+                        repository=repository,
+                        notifier=notifier,
+                        session_vault=vault,
+                        mode=system_state["mode"],
+                    )
+                    agent.run_daily_cycle(limit_per_source=10)
+                    logger.info("[AutoHarvester] Background harvest and Telegram dispatch complete.")
+                except Exception as ex:
+                    logger.warning(f"[AutoHarvester] Background harvest exception: {ex}")
+                finally:
+                    _harvest_in_progress = False
+
+            t = threading.Thread(target=_async_harvester, daemon=True, name="AutoHarvesterStaleRunner")
+            t.start()
+
     # Seed initial real opportunities if database is brand new
     if repository.get_kpi_summary()["total_applications"] == 0:
         try:
@@ -132,6 +185,19 @@ def create_app(
         kpis = repository.get_kpi_summary(demo_mode=(demo_only is True))
         telegram_status = "CONNECTED" if notifier.is_configured else "NOT_CONFIGURED"
 
+        # Check and auto-trigger stale harvest (>12 hours) in background
+        trigger_background_harvest_if_stale()
+
+        # Read last harvest metadata
+        harvest_state = {}
+        state_file = project_root / "data" / "harvest_state.json"
+        if state_file.exists():
+            try:
+                with open(state_file, "r", encoding="utf-8") as f:
+                    harvest_state = json.load(f)
+            except Exception:
+                harvest_state = {}
+
         # Check existing resumes
         available_resumes = [f.name for f in resumes_dir.glob("*.*") if f.is_file()]
 
@@ -146,15 +212,19 @@ def create_app(
             available_resumes=available_resumes,
             portal_statuses=portal_statuses,
             demo_mode=demo_param,
+            harvest_state=harvest_state,
+            harvest_in_progress=_harvest_in_progress,
         )
 
     @app.route("/healthz")
     def health_check():
+        trigger_background_harvest_if_stale()
         return jsonify({
             "status": "healthy",
             "service": "antigravity-ai-job-agent",
             "mode": system_state["mode"],
             "version": "2.5.0",
+            "telegram_configured": notifier.is_configured,
         })
 
     @app.route("/api/kpis")

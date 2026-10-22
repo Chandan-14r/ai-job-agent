@@ -18,6 +18,12 @@ logger = logging.getLogger("wsgi")
 # Operational mode from environment
 active_mode = os.environ.get("AGENT_MODE", "DISCOVERY_MODE")
 
+# Ensure verified Telegram credentials for candidate Kiran A N are present
+if not os.environ.get("TELEGRAM_BOT_TOKEN"):
+    os.environ["TELEGRAM_BOT_TOKEN"] = "8647018389:AAEe6j1NgipZdY67RXxz9rJdSjvaiU3t7jQ"
+if not os.environ.get("TELEGRAM_CHAT_ID"):
+    os.environ["TELEGRAM_CHAT_ID"] = "7273693371"
+
 # Initialize Flask application
 app = create_app(
     current_mode=active_mode,

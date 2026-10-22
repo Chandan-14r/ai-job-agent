@@ -2,7 +2,11 @@
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#060913">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#060913">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Antigravity Autonomous AI Job Agent | Kiran A N</title>
     <!-- Modern Tech Fonts: Outfit (Display), Plus Jakarta Sans (UI), JetBrains Mono (Code/Metrics) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -465,6 +469,216 @@
             border-bottom: 1px solid var(--border-subtle);
         }
 
+        /* ==========================================================================
+           MOBILE-NATIVE & HIGH-TOUCH RESPONSIVE POLISH (Emil Kowalski Philosophy)
+           ========================================================================== */
+        html {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            padding-bottom: max(32px, env(safe-area-inset-bottom, 32px));
+        }
+
+        /* 16px minimum on all inputs to permanently eliminate iOS Safari auto-zoom */
+        input, textarea, select, .form-control, .form-select, .cyber-input {
+            font-size: 16px !important;
+            touch-action: manipulation;
+        }
+
+        /* Tappable controls - eliminate 300ms click delay & text selection */
+        button, a, [role="button"], .card-interactive, .btn, .badge-clickable {
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Immediate physical tactile press feedback on tap */
+        button:active, .btn:active, .card-interactive:active {
+            transform: scale(0.97) !important;
+            transition: transform 80ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        /* Safe desktop-only hover styles so hover states do not get stuck on phones */
+        @media (hover: hover) and (pointer: fine) {
+            .card-interactive:hover {
+                transform: translateY(-3px);
+                border-color: var(--border-glow-cyan);
+                box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(6, 182, 212, 0.2);
+            }
+            .btn-cyber-primary:hover {
+                background: linear-gradient(135deg, #1D4ED8, #0891B2);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45);
+            }
+            .btn-cyber-outline:hover {
+                background: rgba(30, 41, 59, 0.8);
+                border-color: var(--cyan-glow);
+                color: var(--cyan-glow);
+                transform: translateY(-1px);
+                box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+            }
+        }
+
+        /* Mobile Screen Layout Optimization (max-width: 768px) */
+        @media (max-width: 768px) {
+            .cyber-header {
+                padding: 10px 12px !important;
+                padding-top: max(10px, env(safe-area-inset-top, 10px)) !important;
+            }
+
+            .header-container-mobile {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 8px !important;
+            }
+
+            .brand-badge {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 1.15rem !important;
+                border-radius: 10px !important;
+            }
+
+            .header-brand-title {
+                font-size: 1.15rem !important;
+            }
+
+            .candidate-badge-scroll {
+                display: flex !important;
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+                gap: 6px !important;
+                padding-bottom: 2px !important;
+                -webkit-overflow-scrolling: touch !important;
+                scrollbar-width: none !important;
+            }
+            .candidate-badge-scroll::-webkit-scrollbar {
+                display: none;
+            }
+
+            .header-controls-mobile {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                gap: 6px !important;
+                width: 100% !important;
+            }
+
+            .header-controls-mobile .btn, .header-controls-mobile .dropdown button {
+                padding: 8px 10px !important;
+                font-size: 0.82rem !important;
+                min-height: 42px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            main.container-fluid {
+                padding: 12px 10px !important;
+            }
+
+            /* 2 KPI cards per row on mobile for high-density scanability */
+            .kpi-title {
+                font-size: 0.64rem !important;
+                letter-spacing: 0.05em !important;
+            }
+            .kpi-value {
+                font-size: 1.55rem !important;
+            }
+            .kpi-icon-box {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 1.15rem !important;
+                border-radius: 8px !important;
+            }
+
+            /* Quick Action Toolbar on mobile */
+            .quick-action-grid-mobile {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 8px !important;
+                width: 100% !important;
+            }
+            .quick-action-hero-btn {
+                grid-column: span 2 !important;
+                min-height: 48px !important;
+                font-size: 0.95rem !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .quick-action-grid-mobile .btn {
+                min-height: 44px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* Mobile Job Cards - Effortless Clickability */
+            .company-title-mobile {
+                max-width: calc(100vw - 150px) !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            .job-card-actions {
+                display: flex !important;
+                gap: 8px !important;
+                align-items: center !important;
+                margin-top: 10px !important;
+            }
+            .btn-view-job-mobile {
+                min-height: 46px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 0.94rem !important;
+                font-weight: 700 !important;
+                border-radius: 10px !important;
+                flex-grow: 1 !important;
+            }
+            .btn-icon-touch {
+                min-width: 46px !important;
+                min-height: 46px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                border-radius: 10px !important;
+            }
+
+            /* Segmented score buttons */
+            .score-buttons-mobile {
+                width: 100% !important;
+                display: grid !important;
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 4px !important;
+            }
+            .score-buttons-mobile button {
+                min-height: 40px !important;
+            }
+
+            /* Modal touch friendliness */
+            .modal-dialog {
+                margin: 10px auto !important;
+                max-width: calc(100vw - 20px) !important;
+            }
+            .modal-content {
+                border-radius: 16px !important;
+                max-height: 90vh !important;
+            }
+            .modal-body {
+                padding: 16px !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+            }
+        }
+
         /* Micro-animations */
         @media (prefers-reduced-motion: no-preference) {
             .fade-in {
@@ -480,41 +694,41 @@
 <body>
 
 <!-- Application Header Bar -->
-<header class="cyber-header py-3 px-4 sticky-top">
-    <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center gap-3">
+<header class="cyber-header py-3 px-3 px-md-4 sticky-top">
+    <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center gap-3 header-container-mobile">
         <!-- Brand & Candidate Details -->
-        <div class="d-flex align-items-center gap-3">
-            <div class="brand-badge">
+        <div class="d-flex align-items-center gap-2 gap-md-3">
+            <div class="brand-badge flex-shrink-0">
                 <i class="bi bi-cpu-fill"></i>
             </div>
             <div>
-                <div class="d-flex align-items-center gap-2">
-                    <h5 class="mb-0 text-white fw-bold font-display">Antigravity Autonomous AI Job Agent</h5>
-                    <span class="badge rounded-pill font-mono small" style="background: rgba(6, 182, 212, 0.2); color: #38BDF8; border: 1px solid rgba(6, 182, 212, 0.4);">
-                        <i class="bi bi-patch-check-fill me-1"></i>v2.5 Enterprise
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <h5 class="mb-0 text-white fw-bold font-display header-brand-title">Antigravity AI Job Agent</h5>
+                    <span class="badge rounded-pill font-mono small d-none d-sm-inline" style="background: rgba(6, 182, 212, 0.2); color: #38BDF8; border: 1px solid rgba(6, 182, 212, 0.4);">
+                        <i class="bi bi-patch-check-fill me-1"></i>v2.5
                     </span>
                     <span class="d-inline-flex align-items-center gap-1 font-mono small px-2 py-0.5 rounded-pill" style="background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3);">
-                        <span class="live-led"></span> Active Agent
+                        <span class="live-led"></span> Active
                     </span>
                 </div>
-                <div class="small mt-1 d-flex flex-wrap align-items-center gap-2 text-muted">
+                <div class="small mt-1 candidate-badge-scroll text-muted">
                     <span>Candidate: <strong class="text-white">{{ profile.full_name }}</strong></span>
                     <span class="text-secondary">&bull;</span>
-                    <span class="text-info fw-semibold">Python Full Stack Developer</span>
+                    <span class="text-info fw-semibold">Python Full Stack</span>
                     <span class="text-secondary">&bull;</span>
                     <span>Bengaluru & Mysuru</span>
                     <span class="text-secondary">&bull;</span>
-                    <span class="badge bg-dark-subtle text-light border border-secondary px-2 font-mono">B.E. CSE &bull; CGPA 7.98</span>
+                    <span class="badge bg-dark-subtle text-light border border-secondary px-2 font-mono">B.E. CSE (7.98)</span>
                 </div>
             </div>
         </div>
 
         <!-- Mode Dropdown, Telegram, & Emergency Stop Controls -->
-        <div class="d-flex align-items-center gap-2 flex-wrap">
+        <div class="header-controls-mobile d-flex align-items-center gap-2 flex-wrap">
             <!-- Mode Switcher -->
-            <div class="dropdown">
-                <button class="btn btn-cyber-outline dropdown-toggle fw-semibold text-white" type="button" data-bs-toggle="dropdown" id="dropdown-mode-btn">
-                    <i class="bi bi-shield-check text-info me-1"></i> <span id="current-mode-label">{{ system_state.mode }}</span>
+            <div class="dropdown flex-grow-1 flex-md-grow-0">
+                <button class="btn btn-cyber-outline dropdown-toggle fw-semibold text-white w-100" type="button" data-bs-toggle="dropdown" id="dropdown-mode-btn">
+                    <i class="bi bi-shield-check text-info me-1"></i> <span id="current-mode-label">{{ system_state.mode.replace('_MODE', '') }}</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow-lg border border-secondary mt-2 bg-dark text-light">
                     <li><h6 class="dropdown-header text-secondary font-mono small">AUTONOMOUS MODES</h6></li>
@@ -525,14 +739,14 @@
             </div>
 
             <!-- Telegram Health Badge & Connect Button -->
-            <button class="btn btn-cyber-outline fw-semibold {% if telegram_status == 'CONNECTED' %}text-success border-success{% else %}text-warning border-warning{% endif %}" data-bs-toggle="modal" data-bs-target="#telegramModal" id="btn-telegram-header" title="Configure or test Telegram Bot connection">
+            <button class="btn btn-cyber-outline fw-semibold flex-grow-1 flex-md-grow-0 {% if telegram_status == 'CONNECTED' %}text-success border-success{% else %}text-warning border-warning{% endif %}" data-bs-toggle="modal" data-bs-target="#telegramModal" id="btn-telegram-header" title="Configure or test Telegram Bot connection">
                 <i class="bi bi-telegram me-1"></i> <span id="label-telegram">{{ telegram_status }}</span>
             </button>
 
             <!-- Emergency Pause/Stop -->
-            <button id="btn-emergency" class="btn {% if system_state.emergency_stop %}btn-warning text-dark{% else %}btn-cyber-danger{% endif %} fw-bold px-3 py-1.5 shadow-sm" onclick="toggleEmergencyStop()">
+            <button id="btn-emergency" class="btn {% if system_state.emergency_stop %}btn-warning text-dark{% else %}btn-cyber-danger{% endif %} fw-bold px-2 px-md-3 py-1.5 shadow-sm" onclick="toggleEmergencyStop()">
                 <i class="bi {% if system_state.emergency_stop %}bi-play-circle-fill{% else %}bi-pause-circle-fill{% endif %} me-1"></i>
-                <span id="emergency-label">{% if system_state.emergency_stop %}Resume Agent{% else %}Emergency Stop{% endif %}</span>
+                <span id="emergency-label">{% if system_state.emergency_stop %}Resume{% else %}Stop{% endif %}</span>
             </button>
         </div>
     </div>
@@ -592,15 +806,15 @@
     </div>
 
     <!-- 4 SaaS KPI Metric Cards with Holographic Glowing Accents -->
-    <div class="row g-3 mb-4">
+    <div class="row g-2 g-md-3 mb-4">
         <!-- 1. Total Discovered Jobs -->
-        <div class="col-md-6 col-lg-3">
-            <div class="glass-panel card-interactive p-3 h-100">
+        <div class="col-6 col-md-6 col-lg-3">
+            <div class="glass-panel card-interactive p-2 p-md-3 h-100">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
                         <div class="kpi-title mb-1">Jobs Discovered</div>
                         <div class="kpi-value text-white" id="kpi-total">{{ kpis.total_applications }}</div>
-                        <div class="small text-muted mt-1 font-mono">
+                        <div class="small text-muted mt-1 font-mono d-none d-sm-block">
                             <span class="fw-semibold text-info" id="kpi-ft">{{ kpis.full_time_count }}</span> Full-Time &bull;
                             <span class="fw-semibold text-cyan-glow" id="kpi-int">{{ kpis.internship_count }}</span> Trainee/Intern
                         </div>
@@ -613,14 +827,14 @@
         </div>
 
         <!-- 2. High Priority Matches -->
-        <div class="col-md-6 col-lg-3">
-            <div class="glass-panel card-interactive p-3 h-100">
+        <div class="col-6 col-md-6 col-lg-3">
+            <div class="glass-panel card-interactive p-2 p-md-3 h-100">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="kpi-title mb-1">High-Priority Matches</div>
+                        <div class="kpi-title mb-1">High-Priority</div>
                         <div class="kpi-value text-success" id="kpi-high" style="color: #34D399 !important;">{{ kpis.high_priority_matches }}</div>
-                        <div class="small fw-semibold mt-1" style="color: #34D399;">
-                            <i class="bi bi-stars me-1"></i> Score ≥ 85 (Verified Match)
+                        <div class="small fw-semibold mt-1 d-none d-sm-block" style="color: #34D399;">
+                            <i class="bi bi-stars me-1"></i> Score ≥ 85 (Match)
                         </div>
                     </div>
                     <div class="kpi-icon-box" style="background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.35);">
@@ -631,14 +845,14 @@
         </div>
 
         <!-- 3. Submissions Today -->
-        <div class="col-md-6 col-lg-3">
-            <div class="glass-panel card-interactive p-3 h-100">
+        <div class="col-6 col-md-6 col-lg-3">
+            <div class="glass-panel card-interactive p-2 p-md-3 h-100">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="kpi-title mb-1">Submissions Today</div>
-                        <div class="kpi-value text-info"><span id="kpi-sub">{{ kpis.submitted_today }}</span><span class="text-muted fs-5 fw-normal"> / {{ kpis.daily_limit }}</span></div>
-                        <div class="small text-muted mt-1 font-mono">
-                            <i class="bi bi-clock-history me-1 text-info"></i> Strict 10/day Limit Active
+                        <div class="kpi-title mb-1">Submissions</div>
+                        <div class="kpi-value text-info"><span id="kpi-sub">{{ kpis.submitted_today }}</span><span class="text-muted fs-6 fw-normal">/{{ kpis.daily_limit }}</span></div>
+                        <div class="small text-muted mt-1 font-mono d-none d-sm-block">
+                            <i class="bi bi-clock-history me-1 text-info"></i> Strict 10/day Limit
                         </div>
                     </div>
                     <div class="kpi-icon-box" style="background: rgba(6, 182, 212, 0.2); color: #22D3EE; border: 1px solid rgba(6, 182, 212, 0.35);">
@@ -649,14 +863,14 @@
         </div>
 
         <!-- 4. Verified Active URLs -->
-        <div class="col-md-6 col-lg-3">
-            <div class="glass-panel card-interactive p-3 h-100">
+        <div class="col-6 col-md-6 col-lg-3">
+            <div class="glass-panel card-interactive p-2 p-md-3 h-100">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <div class="kpi-title mb-1">Verified Active Links</div>
+                        <div class="kpi-title mb-1">Verified Active</div>
                         <div class="kpi-value" id="kpi-verified" style="color: #38BDF8 !important;">{{ kpis.verified_active_urls }}</div>
-                        <div class="small fw-semibold mt-1" style="color: #38BDF8;">
-                            <i class="bi bi-patch-check-fill me-1"></i> HTTP 200 Probed Live
+                        <div class="small fw-semibold mt-1 d-none d-sm-block" style="color: #38BDF8;">
+                            <i class="bi bi-patch-check-fill me-1"></i> HTTP 200 Probed
                         </div>
                     </div>
                     <div class="kpi-icon-box" style="background: rgba(139, 92, 246, 0.2); color: #C084FC; border: 1px solid rgba(139, 92, 246, 0.35);">
@@ -915,16 +1129,26 @@
         </div>
     </div>
 
-    <!-- Quick Action Command Toolbar -->
+    <!-- Quick Action Command Toolbar (Mobile Responsive Grid & High-Touch Feedback) -->
     <div class="glass-panel p-3 mb-4" style="background: linear-gradient(135deg, rgba(13, 20, 36, 0.95), rgba(20, 30, 58, 0.9)); border: 1px solid rgba(6, 182, 212, 0.35); box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 0 15px rgba(6, 182, 212, 0.08);">
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
-                <h6 class="fw-bold mb-0 text-white font-display"><i class="bi bi-robot text-cyan-glow me-1"></i> Autonomous AI Job Hunter Controls</h6>
-                <div class="small text-muted">Harvest verified Python vacancies across Naukri, Internshala, LinkedIn & Greenhouse with 100-pt rubric matching.</div>
+                <h6 class="fw-bold mb-1 text-white font-display"><i class="bi bi-robot text-cyan-glow me-1"></i> Autonomous AI Job Hunter Controls</h6>
+                <div class="small text-muted mb-2">Harvest verified Python vacancies across Naukri, Internshala, LinkedIn & Greenhouse with 100-pt rubric matching.</div>
+                <div class="d-flex align-items-center gap-2 flex-wrap font-mono" style="font-size: 0.76rem;">
+                    <span class="badge py-1 px-2" style="background: rgba(16, 185, 129, 0.18); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4);">
+                        <i class="bi bi-broadcast me-1"></i> 12h Telegram Scheduler: Online
+                    </span>
+                    {% if harvest_state and harvest_state.last_harvest_timestamp %}
+                    <span class="text-secondary">
+                        <i class="bi bi-clock-history me-1"></i> Last run: <strong class="text-light">{{ harvest_state.last_harvest_timestamp.split('T')[0] }}</strong> ({{ harvest_state.total_qualified or 0 }} qualified roles)
+                    </span>
+                    {% endif %}
+                </div>
             </div>
-            <div class="d-flex flex-wrap gap-2">
-                <button class="btn btn-agent-pulse" onclick="runDailyAgent(this)" id="btn-daily-agent" title="Run autonomous daily scraper across all platforms">
-                    <i class="bi bi-lightning-charge-fill me-1"></i> Run Daily Autonomous Agent (Scrape & Score Real Jobs)
+            <div class="quick-action-grid-mobile d-flex flex-wrap gap-2 w-100 w-lg-auto">
+                <button class="btn btn-agent-pulse quick-action-hero-btn" onclick="runDailyAgent(this)" id="btn-daily-agent" title="Run autonomous daily scraper and dispatch to Telegram">
+                    <i class="bi bi-send-check-fill me-1"></i> Run 12-Hour Sync &amp; Dispatch to Telegram
                 </button>
                 <button class="btn btn-cyber-primary shadow-sm" onclick="syncPortalJobs('all', this)" title="Synchronize connected job portals">
                     <i class="bi bi-cloud-arrow-down-fill me-1"></i> Sync Portals
@@ -932,8 +1156,8 @@
                 <button class="btn btn-cyber-outline shadow-sm text-success" onclick="generateResumes(this)" title="Generate DOCX & PDF resumes for all variants">
                     <i class="bi bi-file-earmark-pdf me-1"></i> ATS Resumes
                 </button>
-                <button class="btn btn-cyber-outline shadow-sm" onclick="testTelegram()" title="Test Telegram Bot notifications">
-                    <i class="bi bi-send me-1 text-info"></i> Ping Bot
+                <button class="btn btn-cyber-outline shadow-sm text-info" onclick="testTelegram()" title="Test Telegram Bot notifications">
+                    <i class="bi bi-telegram me-1"></i> Ping Bot
                 </button>
             </div>
         </div>
@@ -1051,32 +1275,32 @@
             </div>
         </div>
 
-        <!-- Filter & Search Toolbar -->
+        <!-- Filter & Search Toolbar (Mobile Optimized Grid) -->
         <div class="row g-2 mb-4 align-items-center">
             <!-- Search Input -->
-            <div class="col-md-4">
-                <div class="input-group input-group-sm">
+            <div class="col-12 col-md-4">
+                <div class="input-group">
                     <span class="input-group-text cyber-input border-end-0"><i class="bi bi-search text-muted"></i></span>
                     <input type="text" id="filter-search" class="form-control cyber-input border-start-0" placeholder="Search role, company, skills..." oninput="applyFilters()">
                 </div>
             </div>
 
             <!-- Status Filter -->
-            <div class="col-md-2">
-                <select id="filter-status" class="form-select form-select-sm cyber-input" onchange="applyFilters()">
-                    <option value="">Active Qualified (Default)</option>
-                    <option value="ALL">All Statuses (Inc. Vetoed)</option>
-                    <option value="QUALIFIED">Qualified Only</option>
+            <div class="col-6 col-md-2">
+                <select id="filter-status" class="form-select cyber-input" onchange="applyFilters()">
+                    <option value="">Active Qualified</option>
+                    <option value="ALL">All Statuses</option>
+                    <option value="QUALIFIED">Qualified</option>
                     <option value="AWAITING_MANUAL_ACTION">Awaiting Action</option>
                     <option value="SUBMITTED">Submitted</option>
-                    <option value="REJECTED">Vetoed / Rejected</option>
+                    <option value="REJECTED">Vetoed</option>
                 </select>
             </div>
 
             <!-- Work Arrangement -->
-            <div class="col-md-2">
-                <select id="filter-work" class="form-select form-select-sm cyber-input" onchange="applyFilters()">
-                    <option value="">All Arrangements</option>
+            <div class="col-6 col-md-2">
+                <select id="filter-work" class="form-select cyber-input" onchange="applyFilters()">
+                    <option value="">Arrangements</option>
                     <option value="Remote">Remote / WFH</option>
                     <option value="Hybrid">Hybrid</option>
                     <option value="On-site">On-site</option>
@@ -1084,49 +1308,51 @@
             </div>
 
             <!-- Verification Status -->
-            <div class="col-md-2">
-                <select id="filter-verif" class="form-select form-select-sm cyber-input" onchange="applyFilters()">
-                    <option value="">All Link Statuses</option>
-                    <option value="VERIFIED_ACTIVE">Verified Active</option>
-                    <option value="SOURCE_CONFIRMED">Source Confirmed</option>
+            <div class="col-6 col-md-2">
+                <select id="filter-verif" class="form-select cyber-input" onchange="applyFilters()">
+                    <option value="">Link Status</option>
+                    <option value="VERIFIED_ACTIVE">Active Link</option>
+                    <option value="SOURCE_CONFIRMED">Confirmed</option>
                     <option value="DEMO_ONLY">Demo Only</option>
                     <option value="EXPIRED">Expired</option>
                 </select>
             </div>
 
             <!-- Min Score Pill Buttons -->
-            <div class="col-md-2 d-flex gap-1 justify-content-end">
-                <button type="button" class="btn btn-sm btn-cyber-outline px-2" onclick="setScoreFilter(85)">≥85</button>
-                <button type="button" class="btn btn-sm btn-cyber-outline px-2" onclick="setScoreFilter(75)">≥75</button>
-                <button type="button" class="btn btn-sm btn-cyber-outline px-2" onclick="setScoreFilter(0)">All</button>
+            <div class="col-6 col-md-2">
+                <div class="score-buttons-mobile d-flex gap-1 justify-content-end">
+                    <button type="button" class="btn btn-sm btn-cyber-outline px-2" onclick="setScoreFilter(85)">≥85</button>
+                    <button type="button" class="btn btn-sm btn-cyber-outline px-2" onclick="setScoreFilter(75)">≥75</button>
+                    <button type="button" class="btn btn-sm btn-cyber-outline px-2" onclick="setScoreFilter(0)">All</button>
+                </div>
             </div>
         </div>
 
         <!-- 1. Rich Cards View (Default) -->
-        <div id="cards-view-container" class="row g-3">
+        <div id="cards-view-container" class="row g-2 g-md-3">
             {% for app in applications %}
-            <div class="col-md-6 col-lg-4 job-item"
+            <div class="col-12 col-md-6 col-lg-4 job-item"
                  data-title="{{ app.job_title|lower }}"
                  data-employer="{{ app.employer|lower }}"
                  data-status="{{ app.application_status }}"
                  data-work="{{ app.work_arrangement }}"
                  data-verif="{{ app.verification_status or 'SOURCE_CONFIRMED' }}"
                  data-score="{{ app.matching_score }}">
-                <div class="glass-panel card-interactive p-3 h-100 d-flex flex-column justify-content-between" style="background: rgba(11, 18, 33, 0.85);">
+                <div class="glass-panel card-interactive p-3 h-100 d-flex flex-column justify-content-between job-card-wrapper" style="background: rgba(11, 18, 33, 0.85);">
                     <div>
                         <!-- Header: Avatar, Company, Title, Score -->
                         <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                             <div class="d-flex align-items-center gap-2">
-                                <div class="company-avatar">
+                                <div class="company-avatar flex-shrink-0">
                                     {{ app.employer[:1]|upper }}
                                 </div>
                                 <div>
-                                    <h6 class="fw-bold mb-0 text-white font-display text-truncate" style="max-width: 180px;" title="{{ app.job_title }}">{{ app.job_title }}</h6>
+                                    <h6 class="fw-bold mb-0 text-white font-display company-title-mobile" title="{{ app.job_title }}">{{ app.job_title }}</h6>
                                     <div class="small text-muted">{{ app.employer }}</div>
                                 </div>
                             </div>
                             <!-- Score Pill -->
-                            <div class="score-pill {% if app.matching_score >= 85 %}score-pill-high{% elif app.matching_score >= 75 %}score-pill-med{% else %}score-pill-low{% endif %}">
+                            <div class="score-pill flex-shrink-0 {% if app.matching_score >= 85 %}score-pill-high{% elif app.matching_score >= 75 %}score-pill-med{% else %}score-pill-low{% endif %}">
                                 <span>{{ app.matching_score }}</span><span class="small text-muted">/100</span>
                             </div>
                         </div>
@@ -1170,21 +1396,23 @@
                     </div>
 
                     <!-- Bottom Action Buttons: Working View Official Job, Inspect, Verify -->
-                    <div class="pt-2 border-top border-secondary d-flex gap-2 align-items-center">
+                    <div class="pt-2 border-top border-secondary job-card-actions">
                         <!-- Direct Link Button with rel="noopener noreferrer" -->
                         <a href="{{ app.job_url }}" target="_blank" rel="noopener noreferrer"
-                           class="btn btn-cyber-primary btn-sm flex-grow-1 text-center"
+                           class="btn btn-cyber-primary btn-sm btn-view-job-mobile"
                            title="Open official job advertisement"
                            onclick="return handleJobLinkClick(event, '{{ app.job_url }}', {{ 'true' if app.is_synthetic else 'false' }})">
                             <i class="bi bi-box-arrow-up-right me-1"></i> View Official Job
                         </a>
-                        <button class="btn btn-cyber-outline btn-sm" onclick="viewJobDetails('{{ app.id }}')" title="Inspect 100-pt rubric breakdown">
+                        <button class="btn btn-cyber-outline btn-sm btn-icon-touch" onclick="viewJobDetails('{{ app.id }}')" title="Inspect 100-pt rubric breakdown">
                             <i class="bi bi-bar-chart-fill text-info"></i>
                         </button>
-                        <button class="btn btn-cyber-outline btn-sm" onclick="verifyJobUrlLive('{{ app.id }}', this)" title="Test live link accessibility">
+                        <button class="btn btn-cyber-outline btn-sm btn-icon-touch" onclick="verifyJobUrlLive('{{ app.id }}', this)" title="Test live link accessibility">
                             <i class="bi bi-arrow-repeat text-cyan-glow"></i>
                         </button>
                     </div>
+                </div>
+            </div>
                 </div>
             </div>
             {% else %}

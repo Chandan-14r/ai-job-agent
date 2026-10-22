@@ -9,6 +9,7 @@ and Telegram notification dispatch.
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import sys
@@ -169,6 +170,21 @@ class AutonomousDailyScrapingAgent:
             f"[DailyAgent] Cycle complete: {len(all_scraped)} scraped, "
             f"{total_qualified} qualified, {total_vetoed} vetoed/rejected."
         )
+
+        # Persist harvest state for autonomous stale detection across server restarts
+        try:
+            state_path = Path(__file__).resolve().parent.parent / "data" / "harvest_state.json"
+            state_data = {
+                "last_harvest_timestamp": end_ts,
+                "total_scraped": len(all_scraped),
+                "total_qualified": total_qualified,
+                "total_vetoed": total_vetoed,
+                "telegram_dispatches": telegram_dispatches,
+            }
+            with open(state_path, "w", encoding="utf-8") as sf:
+                json.dump(state_data, sf, indent=2)
+        except Exception as state_err:
+            logger.warning(f"[DailyAgent] Could not persist harvest_state.json: {state_err}")
 
         return {
             "status": "success",
