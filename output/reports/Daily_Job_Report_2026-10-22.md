@@ -2,10 +2,10 @@
 **Date:** 2026-10-22 | **Candidate:** Kiran A N | **Active Mode:** `DISCOVERY_MODE`
 
 ## Key Performance Indicators
-- **Total Opportunities Tracked:** 34
-- **Full-Time Permanent Roles:** 31
+- **Total Opportunities Tracked:** 38
+- **Full-Time Permanent Roles:** 35
 - **Internships / Trainee Roles:** 3
-- **High-Priority Matches (≥85):** 16
+- **High-Priority Matches (≥85):** 17
 - **Applications Submitted Today:** 0 / 10
 - **Applications Awaiting Manual Action:** 0
 
@@ -13,6 +13,7 @@
 
 | Company | Job Title | Type | Location | Score | Status | Resume | Link |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| GitLab | Cloud Platform Engineer | FULL_TIME | Remote (India) | **95/100** | `QUALIFIED` | `RESUME_A` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8889193002) |
 | Viraaj HR Solutions Private Limited | Python Developer | FULL_TIME | Bengaluru, Karnataka, India | **94/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://in.linkedin.com/jobs/view/python-developer-at-viraaj-hr-solutions-private-limited-4478864371) |
 | ealana | Backend Engineer (Python) — Payments Platform | FULL_TIME | Bengaluru, Karnataka, India | **94/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://in.linkedin.com/jobs/view/backend-engineer-python-%E2%80%94-payments-platform-at-ealana-4477707910) |
 | NTT DATA North America | Z2_Python Developer | FULL_TIME | Bengaluru, Karnataka, India | **94/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://in.linkedin.com/jobs/view/z2-python-developer-at-ntt-data-north-america-4454582094) |
@@ -32,4 +33,3 @@
 | GitLab | Intermediate Backend Engineer - Code Security | FULL_TIME | Remote (India) | **84/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8894531002) |
 | GitLab | Migration Engineer - GitLab Dedicated | FULL_TIME | Remote (India) | **83/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://job-boards.greenhouse.io/gitlab/jobs/8710061002) |
 | Billions United | Python Developer | FULL_TIME | Bengaluru, Karnataka, India | **83/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://www.naukri.com/job-listings-python-developer-billions-united-bengaluru-0-to-2-years-250725500803) |
-| Cybrosys | Python Developer | FULL_TIME | Bengaluru, Karnataka, India | **83/100** | `QUALIFIED` | `RESUME_B` | [View Job](https://www.naukri.com/job-listings-python-developer-cybrosys-technologies-pvt-ltd-bengaluru-0-to-2-years-041225503119) |

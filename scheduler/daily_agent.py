@@ -144,16 +144,17 @@ class AutonomousDailyScrapingAgent:
         telegram_dispatches = 0
         if self.notifier and self.notifier.is_configured:
             logger.info("[DailyAgent] Dispatching job alerts and 12-hour summary to Telegram...")
+            cycle_tag = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
             # Send individual job cards for top qualified jobs (up to 5 per cycle)
             for q in qualified_records[:5]:
                 app_obj = self.repo.get_application_by_id(q["id"])
                 if app_obj:
                     card_msg = format_new_job_found(app_obj)
-                    sent = self.notifier.send_message(card_msg, event_id=f"tg_card_{app_obj.id}")
+                    sent = self.notifier.send_message(card_msg, event_id=f"tg_card_{app_obj.id}_{cycle_tag}")
                     if sent:
                         telegram_dispatches += 1
 
-            # Send 12-Hour Executive Summary
+            # Send 12-Hour Executive Summary (always delivered per cycle)
             summary_msg = self._build_cycle_telegram_summary(
                 total_scraped=len(all_scraped),
                 total_qualified=total_qualified,
@@ -161,8 +162,7 @@ class AutonomousDailyScrapingAgent:
                 sources=source_breakdown,
                 qualified_jobs=qualified_records,
             )
-            hour_bucket = datetime.utcnow().strftime("%Y-%m-%d_%H")
-            self.notifier.send_message(summary_msg, event_id=f"12hr_summary_{hour_bucket}")
+            self.notifier.send_message(summary_msg, event_id=f"summary_{cycle_tag}")
             logger.info(f"[DailyAgent] Telegram dispatch complete ({telegram_dispatches} cards + executive report).")
 
         end_ts = datetime.utcnow().isoformat()

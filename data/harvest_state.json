@@ -1,7 +1,7 @@
 {
-  "last_harvest_timestamp": "2026-10-22T15:49:30.150996",
-  "total_scraped": 20,
-  "total_qualified": 17,
-  "total_vetoed": 3,
+  "last_harvest_timestamp": "2026-10-22T15:51:28.867891",
+  "total_scraped": 40,
+  "total_qualified": 28,
+  "total_vetoed": 12,
   "telegram_dispatches": 5
 }

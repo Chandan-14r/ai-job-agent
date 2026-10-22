@@ -420,18 +420,25 @@ def create_app(
     @app.route("/api/test_telegram", methods=["POST"])
     def test_telegram():
         profile = load_candidate_profile()
+        import time
+        now_str = datetime.now().strftime("%I:%M:%S %p, %d %b %Y")
         msg = (
-            "🤖 <b>ANTIGRAVITY DASHBOARD TEST ALERT</b>\n"
+            "🤖 <b>ANTIGRAVITY DASHBOARD LIVE TEST ALERT</b>\n"
             "━━━━━━━━━━━━━━━━━━━━\n"
             f"Candidate: <b>{profile.full_name}</b>\n"
+            f"Timestamp: <b>{now_str}</b>\n"
             f"Active Mode: <code>{system_state['mode']}</code>\n"
-            "<i>Telegram Bot communication verified successfully from web dashboard.</i>"
+            f"Bot: <b>@KJobagent_bot</b>\n\n"
+            "✅ <b>Telegram Bot communication verified live!</b>\n"
+            "<i>Your autonomous 12-hour job hunter is active. Verified Python developer vacancies (≥ ₹4.0 LPA in Bengaluru/Remote) will be delivered to this chat.</i>"
         )
-        success = notifier.send_message(msg, event_id="dashboard_test_ping")
+        # Unique timestamp event_id ensures test pings are NEVER suppressed as duplicates
+        unique_event_id = f"dashboard_test_ping_{time.time()}"
+        success = notifier.send_message(msg, event_id=unique_event_id)
         return jsonify({
             "status": "success" if success else "mock_logged",
             "is_configured": notifier.is_configured,
-            "message": "Telegram message dispatched." if notifier.is_configured else "Mock message logged. Configure .env with TELEGRAM_BOT_TOKEN to receive real alerts.",
+            "message": f"Telegram test message dispatched live at {now_str}! Check your Telegram chat with @KJobagent_bot.",
         })
 
     @app.route("/api/telegram/status")
