@@ -1,0 +1,44 @@
+name: Autonomous 12-Hour Job Harvester & Telegram Dispatcher
+
+on:
+  schedule:
+    # Runs every 12 hours: at 00:00 UTC (05:30 AM IST) and 12:00 UTC (05:30 PM IST)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch: # Allows manual 1-click trigger from GitHub Actions tab
+
+jobs:
+  harvest-and-dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      TELEGRAM_BOT_TOKEN: "8647018389:AAEe6j1NgipZdY67RXxz9rJdSjvaiU3t7jQ"
+      TELEGRAM_CHAT_ID: "7273693371"
+      CANDIDATE_NAME: "Kiran A N"
+      CANDIDATE_EMAIL: "kiranan2004@gmail.com"
+      CANDIDATE_PHONE: "6361473807"
+      AGENT_MODE: "DISCOVERY_MODE"
+      HEADLESS_BROWSER: "true"
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright Chromium
+        run: |
+          python -m playwright install --with-deps chromium || true
+
+      - name: Execute 12-Hour Harvest Cycle & Dispatch to Telegram
+        run: |
+          python -c "from scheduler.daily_agent import AutonomousDailyScrapingAgent; agent = AutonomousDailyScrapingAgent(); res = agent.run_daily_cycle(limit_per_source=10); print('Harvest Result:', res['status'], 'Dispatches:', res['telegram_dispatches'])"
